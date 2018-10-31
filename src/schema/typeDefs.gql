@@ -1,0 +1,46 @@
+enum Role {
+    USER
+    VOLONTEER
+    ADMINISTRATOR
+    TASK_CREATOR
+}
+
+type User {
+    name: String
+    id: ID
+    roles: [Role]
+    skills: [String]
+}
+
+type Event {
+    date: Date
+    description: String
+}
+
+type Task {
+    __typename
+    id: ID
+    name: String
+    description: String
+    #List of subtasks
+    tasks: [Task]
+    creator:User
+    history:[Event]
+    progress:[Event]
+    requiredSkills: [String]
+    assignedTo:[User]
+    isCompleted: Boolean
+    createdDate: Date
+    completedDate
+}
+
+type Query {
+    user(id:ID):User
+    task
+}
+
+type Mutation {
+    login(name:$name,password:$password):User
+    logout
+    createTask():Task
+}
