@@ -1,0 +1,10 @@
+type Query {
+    user(id:ID):User
+    task
+}
+
+type Mutation {
+    login(name:$name,password:$password):User
+    logout
+    createTask():Task
+}

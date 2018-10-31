@@ -2,15 +2,23 @@ import React from 'react'
 import onError$link from './apolloLinks/onError$link'
 import { SchemaLink } from 'apollo-link-schema'
 import {StaticRouter as Router} from 'react-router-dom'
+import { withClientState } from 'apollo-link-state'
 
-export default ({app$component:App,htmlTemplate})=>(req, res) => {
-    const client = new ApolloClient({
-        ssrMode: true,
-        link: ApolloLink.from([
+export default ({htmlTemplate,clientSchema,
+    app$component:App
+})=>(req, res) => {
+    const schemaLink=new SchemaLink({ schema:this.schema })
+    const cache=new InMemoryCache()
+    const links=clientSchema?
+        [
             onError$link,
-            new SchemaLink({ schema:this.schema })
-        ]),
-        cache: new InMemoryCache()
+            withClientState({cache,...clientSchema}),
+            schemaLink
+        ]:
+        [onError$link,schemaLink]
+    const client = new ApolloClient({cache,
+        link:ApolloLink.from(links),
+        ssrMode: true
     })
     const context = {}
     const component = (

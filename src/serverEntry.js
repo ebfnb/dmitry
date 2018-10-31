@@ -1,7 +1,7 @@
 import m8Server$klass from './m8/server$klass'
 import htmlTemplate from './htmlTemplate'
 import app$component from './app#component'
-const schema = require('./schema')
+import schema,{clientSchema} from './schema'
 const path = require("path")
 import express from 'express'
 
@@ -11,7 +11,7 @@ app.use(express.static(path.join(__dirname, "dist")))
 m8Server.applyMiddleware({app})
 if(process.env.NODE_ENV === 'production')
     app.get('**',m8Server.ssr$getMiddleware({
-        htmlTemplate,app$component
+        htmlTemplate,app$component,clientSchema
     }))
 else if(process.env.NODE_ENV === 'development')
     app.get('**',(req,res)=>res.send(htmlTemplate()))
