@@ -41,10 +41,14 @@
     "babel-cli": "^6.26.0",
     "babel-plugin-import-graphql": "^2.6.2",
     "bulma": "^0.7.2",
+    "classnames": "^2.2.6",
     "fontawesome": "^4.7.2",
     "graphql": "^14.0.2",
     "graphql-tag": "^2.10.0",
+    "prop-types": "^15.6.2",
     "react-apollo": "^2.2.4",
+    "react-scope-provider": "^1.0.0-1",
+    "recompose": "^0.30.0",
     "sass": "^1.14.2"
   }
 }
