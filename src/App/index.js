@@ -1,18 +1,23 @@
+import client from "./apolloClient";
 import React from 'react'
-import {Route, Link } from "react-router-dom"
-import Home from './Home/index.js'
-import About from './About'
+import { ApolloProvider } from 'react-apollo'
+import { BrowserRouter as Router, Route} from "react-router-dom"
 import Layout from './Layout'
+import Home from './Home'
+//import About from './About'
 import Login from './Login'
-import Profile from './Profile'
+//import Register from './Register'
+//import Profile from './Profile'
+//import Blog from './Blog'
 
 export default ()=>(
-    <Layout>
-        <div>
-            <Route exact path="/" component={Home} />
-            <Route exact path="/about" component={About} />
-            <Route exact path="/login" component={Login} />
-            <Route exact path="/profile" component={Profile} />
-        </div>
-    </Layout>
+    <ApolloProvider client={client}>
+        <Router>
+            <div>
+                <Layout/>
+                <Route exact path="/" component={Home} />
+                <Route exact path="/login" component={Login} />
+            </div>
+        </Router>
+    </ApolloProvider>
 )
