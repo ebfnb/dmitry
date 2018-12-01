@@ -1,5 +1,5 @@
 import {reduce,applyTo} from 'ramda'
-import commonsModule from 'commons'
+import commonComposable from 'commons'
 import toFunc from './toFunc'
 import toArr from './toArr'
 
@@ -16,5 +16,5 @@ export default reduce(
     resolvers:{...accResolvers,...resolvers},
     context:(req)=>({...toFunc(accContext)(req),...toFunc(context)(req)})
   }),
-  commonsModule
+  commonComposable
 )

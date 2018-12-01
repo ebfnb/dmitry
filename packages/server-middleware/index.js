@@ -3,7 +3,7 @@ import {reduce} from 'ramda'
 import {toFunc} from 'tools'
 
 const middleware=({mockStore,
-  m8module:{typeDefs,resolvers,context},
+  m8composable:{typeDefs,resolvers,context},
   ...restProps
 })=>{
   return graphqlHTTP({

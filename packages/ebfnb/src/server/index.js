@@ -5,15 +5,15 @@ import usersModule from 'users'
 import tasksModule from 'tasks'
 import serverMiddleware from 'server-middleware'
 const cors = require('cors')
-import {composeModules} from 'tools'
+import {m8compose} from 'tools'
 
 const mockStore={
   users:[]
 }
 const app = express()
-const m8module=composeModules([userModule,taskModule,{typeDefs,resolvers}])
+const m8composable=m8compose([userModule,taskModule,{typeDefs,resolvers}])
 app.use(cors())
-app.use('/graphql',serverMiddleware({mockStore,m8module,
+app.use('/graphql',serverMiddleware({mockStore,m8composable,
   graphiql: true,
   pretty:true
 }))
