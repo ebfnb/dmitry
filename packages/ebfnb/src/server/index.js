@@ -1,12 +1,11 @@
-const graphqlHTTP = require('express-graphql');
-//const { buildSchema } = require('graphql');
-const {  } = require('graphql')
 import typeDefs from './typeDefs'
 import resolvers from './resolvers'
-//const { ApolloServer } = require('apollo-server-express')
 import express from 'express'
+import usersModule from 'users'
+import tasksModule from 'tasks'
+import serverMiddleware from 'server-middleware'
 const cors = require('cors')
-import drupal from './drupal'
+
 
 const schema=buildASTSchema(typeDefs)
 const mockStore={

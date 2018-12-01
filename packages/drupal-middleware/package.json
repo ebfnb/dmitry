@@ -1,0 +1,16 @@
+{
+  "name": "drupal-middleware",
+  "version": "1.0.0",
+  "description": "This is an experiment towards autogenerating drupal schema based on abstraction of collections - a set of crud operations for each drupal entity. It exports an express middleware function NOTE: it has not been debugged",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4",
+    "ramda": "^0.26.1"
+  }
+}
