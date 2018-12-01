@@ -1,0 +1,6 @@
+Those moduleComposables.
+What are they? They are just begging for a poetic name. Here it is ... gene. We are composing an intellegent, at some point in the future, organism and those composables are the instructions how to build and evolve it and how iy will relate to others. Our composition rules are a few rules on how an m8 type of organism should be beald. It should be kind and it should not be too selfish and it should be an anarchist. The rest is up to the proud creators of an m8 module. 
+You see, other m80s will be evolving their schemas (chromosomes?) and our guy needs to adapt. He introspects the nature of their beings (thru graphql introspection) and adjusts its own schema accordingly. 
+It's all contained in the seed in form of functions. Those functions get executed on each request (tick of the clock) and the organism evolves and gets smarter. 
+We can use genetic algorithms or machine learning to evolve the whole net in our control - m8ville. I just invented gravity in m8ville. I hope it works.
+Gravity converges m8 universe to the solution which is a kinder universe. Why? Cos we designed the rules how the seeds are hatched.
