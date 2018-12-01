@@ -1,6 +1,3 @@
-import castTo from './castTo'
-import {identity} from 'ramda'
-
-export default castTo('function')({
-    'other':identity
-})
+export default (val)=>(
+    (typeof val==='function')?val:()=>val
+)
