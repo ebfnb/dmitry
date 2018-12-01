@@ -1,18 +1,21 @@
 const graphqlHTTP = require('express-graphql');
 const { makeExecutableSchema } = require('graphql-tools')
-import {reduce,compose,prop} from 'ramda'
+import {reduce} from 'ramda'
+import commonsModule from 'commons'
 
-import commons from 'commons'
-
-const middleware=({m8Modules})=>{
-  const schemaConfig=reduce(
-    compose
-  )
-  const schema=makeExecutableSchema({
-    typeDefs:[...commonTypeDefs,typeDefs],
-    resolvers:{...commonResolvers,resolvers}
-  })
-  return graphqlHTTPmiddleware=graphqlHTTP({schema,
+const composeModules=reduce(
+  ({accTypeDefs=[],accResolvers={},accDataSources={}},{typeDefs,resolvers,dataSources})=>({
+    typeDefs:[...accTypeDefs,...typeDefs],
+    resolvers:{...accResolvers,resolvers},
+    accDataSources:{...accDataSources,...dataSources}
+  }),
+  commonsModule
+)
+const middleware=({m8Modules,mockStore})=>{
+  const {typeDefs,resolvers,dataSources}=composeModules(m8Modules)
+  return graphqlHTTP({
+    schema:{typeDefs,resolvers},
+    context:(req)=>({req,dataSources,mockStore}),
     graphiql: true,
     pretty:true
   })
