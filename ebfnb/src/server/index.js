@@ -1,9 +1,9 @@
 import typeDefs from './typeDefs'
 import resolvers from './resolvers'
 import express from 'express'
-import users from 'm8-users/server'
-import tasks from 'm8-tasks/server'
-import volunteerTasks from 'm8-volunteer-tasks/server'
+import users from 'm8-users-module/server'
+import tasks from 'm8-tasks-module/server'
+import volunteerTasks from 'm8-volunteer-tasks-module/server'
 import serverMiddleware from 'server-middleware'
 
 const mockStore={
