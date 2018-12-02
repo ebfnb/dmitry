@@ -1,5 +1,5 @@
 {
-  "name": "users",
+  "name": "m8-users",
   "version": "1.0.0",
   "description": "",
   "main": "lib/schema.js",
