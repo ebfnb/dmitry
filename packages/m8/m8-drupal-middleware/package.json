@@ -1,5 +1,5 @@
 {
-  "name": "drupal-middleware",
+  "name": "m8-drupal-middleware",
   "version": "1.0.0",
   "description": "This is an experiment towards autogenerating drupal schema based on abstraction of collections - a set of crud operations for each drupal entity. It exports an express middleware function NOTE: it has not been debugged",
   "main": "index.js",
