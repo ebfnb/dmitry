@@ -1,19 +1,21 @@
 import typeDefs from './typeDefs'
 import resolvers from './resolvers'
 import express from 'express'
-import usersModule from 'users'
-import tasksModule from 'tasks'
+import usersModuleConfig from 'm8-users'
+import tasksModuleConfig from 'm8-tasks'
 import serverMiddleware from 'server-middleware'
 const cors = require('cors')
-import {m8compose} from 'tools'
+import {mergeModuleConfigs} from 'tools'
 
 const mockStore={
   users:[]
 }
 const app = express()
-const m8composable=m8compose([userModule,taskModule,{typeDefs,resolvers}])
+const localMo
+const moduleConfig=mergeModuleConfigs([userModule,taskModule,{typeDefs,resolvers}])
 app.use(cors())
-app.use('/graphql',serverMiddleware({mockStore,m8composable,
+app.use('/graphql',serverMiddleware({mockStore,
+  moduleConfigs:[usersModuleConfig,tasksModuleConfig],
   graphiql: true,
   pretty:true
 }))
