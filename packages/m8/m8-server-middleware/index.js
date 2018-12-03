@@ -1,10 +1,10 @@
 const graphqlHTTP = require('express-graphql');
 import {reduce} from 'ramda'
-import {toFunc} from 'tools'
+import {toFunc,mergeModuleConfigs} from 'tools'
 
-const middleware=({mockStore,
-  m8composable:{typeDefs,resolvers,context},
-  ...restProps
+const middleware=({mockStore,typeDefs,resolvers,moduleConfigs,
+  context=()=>({}),
+  ...restProps,
 })=>{
   return graphqlHTTP({
     schema:{typeDefs,resolvers},
