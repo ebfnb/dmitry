@@ -1,8 +1,8 @@
 {
-  "name": "m8-server-middleware",
+  "name": "m8-server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,9 +10,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "apollo-server-express": "^2.2.5",
     "express-graphql": "^0.7.1",
     "graphql-tools": "^4.0.3",
-    "ramda": "^0.26.1",
-    "m8-tools": "^1.0.0"
+    "m8-tools": "file:../m8-tools",
+    "ramda": "^0.26.1"
   }
 }

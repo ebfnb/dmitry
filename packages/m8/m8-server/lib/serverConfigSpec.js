@@ -1,9 +1,9 @@
 
 import {reduce,applyTo,curry,applySpec,pick,compose,prop,merge} from 'ramda'
 import commonComposable from 'commons'
-import toFunc from './toFunc'
-import toArr from './toArr'
-import toFunc from './toFunc'
+import toFunc from 'm8-tools/lib/toFunc'
+import toArr from 'm8-tools/lib/toArr'
+import toFunc from 'm8-tools/lib/toFunc'
 import {makeExecutableSchema} from 'graphql-tools'
 
 const toObjReducer=curry(
