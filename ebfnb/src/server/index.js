@@ -4,7 +4,7 @@ import express from 'express'
 import users from 'm8-users-module/server'
 import tasks from 'm8-tasks-module/server'
 import volunteerTasks from 'm8-volunteer-tasks-module/server'
-import serverMiddleware from 'server-middleware'
+import m8server from 'm8-server'
 
 const mockStore={
   users:[]
