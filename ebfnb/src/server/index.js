@@ -1,5 +1,5 @@
 import typeDefs from './typeDefs'
-import resolvers from './resolvers'
+import resolvers from './mockResolvers'
 import express from 'express'
 import users from 'm8-users-module/server'
 import tasks from 'm8-tasks-module/server'
