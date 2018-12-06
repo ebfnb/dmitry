@@ -1,3 +1,7 @@
+/*
+exports spec object (as in applySpec(spec)) to compose list of schema objects
+pick props out of spec for specific use cases
+*/
 
 import {reduce,applyTo,curry,applySpec,pick,compose,prop,mergeAll} from 'ramda'
 import toFunc from 'm8-tools/lib/toFunc'
@@ -15,21 +19,21 @@ const toFuncReducer=curry(
   (propName,accFunc,curFunc)=>(...args)=>merge(accFunc(args),toFunc(curFunc)(...args))
 )
 const toGQL=(typeDefAsString)=>gql`${typeDefAsString}`
-const contextReducer=({context:accContext},moduleConfig)=>{
+const contextReducer=({context:oldContext},moduleSchema)=>{
   const {
     name:moduleName,
     context:moduleContext,
-  }=moduleConfig
+  }=moduleSchema
   const newContext=(req)=>{
-    const accContextObj=accContext(req)
+    const oldContextObj=oldContext(req)
     const toContextProp=curry(
-      (propName,moduleConfigPropName)=>mergeAll([
-        accContextObj[accContextObj],
-        {[moduleName]:moduleConfig[moduleConfigPropName]}
-      ])
+      (contextObjPropName,schemaPropName)=>Object.assign(
+        oldContextObj[contextObjPropName],
+        moduleSchema[schemaPropName]
+      )
     )
     return mergeAll([
-      accContextObj,
+      oldContextObj,
       toFunc(moduleContext)(req) || {},
       {
         dataSources:toContextProp('dataSources','dataSource'),
@@ -41,7 +45,7 @@ const contextReducer=({context:accContext},moduleConfig)=>{
   return newContext
 }
 
-const serverConfigSpec={
+const schemaSpec={
   typeDefs:compose(
     map(toGQL),
     reduce(toListReducer('typeDefs'),[])
@@ -53,4 +57,4 @@ const serverConfigSpec={
     store:{}
   }))
 }
-export default serverConfigSpec
+export default schemaSpec

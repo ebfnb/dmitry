@@ -10,6 +10,9 @@ const mockStore={
   users:[]
 }
 const app = express()
+m8server({
+
+}).applyMiddleware(app)
 app.use('/graphql',serverMiddleware({mockStore,typeDefs,resolvers,
   moduleConfigs:[users,tasks,volunteerTasks,],
   graphiql: true,

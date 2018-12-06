@@ -13,7 +13,7 @@
     "apollo-server-express": "^2.2.5",
     "express-graphql": "^0.7.1",
     "graphql-tools": "^4.0.3",
-    "m8-tools": "file:../m8-tools",
+    "m8-tools": "file:../tools",
     "ramda": "^0.26.1"
   }
 }
