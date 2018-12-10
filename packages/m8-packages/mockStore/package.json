@@ -1,12 +1,18 @@
 {
-  "name": "mockStore",
+  "name": "m8-mockStore",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "graphql": "^14.0.2",
+    "graphql-compose": "^5.3.4",
+    "ramda": "^0.26.1",
+    "tools": "file:../tools"
+  }
 }
