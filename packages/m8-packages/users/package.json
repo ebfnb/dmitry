@@ -10,7 +10,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "graphql-compose": "^5.3.4",
     "ramda": "^0.26.1",
-    "tools": "^1.0.0"
+    "tools": "^1.0.0",
+    "m8-server":"file:../server"
   }
 }

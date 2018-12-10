@@ -1,6 +1,7 @@
 const { ApolloServer } = require('apollo-server-express')
 import {reduce} from 'ramda'
 import {toFunc} from 'm8-tools'
+import schema from './schema'
 import resolvers from './resolvers'
 import typeDefs from './typeDefs'
 import schemaSpec from 'm8-tools/lib/schemaSpec'
@@ -24,5 +25,6 @@ const server=({schemas=[],appSchema={},
 }
 
 export default server
+export {default as schema} from './schema'
 
 

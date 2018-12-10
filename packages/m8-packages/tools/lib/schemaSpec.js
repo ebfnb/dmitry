@@ -44,6 +44,7 @@ const contextReducer=({context:oldContext},moduleSchema)=>{
   }
   return newContext
 }
+const schemaReducer=()
 
 const schemaSpec={
   typeDefs:compose(
