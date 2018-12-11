@@ -1,22 +1,9 @@
-import typeDefs from './typeDefs'
-import resolvers from './mockResolvers'
-import express from 'express'
-import users from 'm8-users-module/server'
-import tasks from 'm8-tasks-module/server'
-import volunteerTasks from 'm8-volunteer-tasks-module/server'
-import m8server from 'm8-server'
+const { ApolloServer } = require('apollo-server-express')
+import {reduce} from 'ramda'
+import {toFunc} from 'm8-tools'
+import schema from './sdlSchema'
 
-const mockStore={
-  users:[]
-}
-const app = express()
-m8server({
-
-}).applyMiddleware(app)
-app.use('/graphql',serverMiddleware({mockStore,typeDefs,resolvers,
-  moduleConfigs:[users,tasks,volunteerTasks,],
+new ApolloServer({...schema,
   graphiql: true,
   pretty:true,
-}))
-app.listen(4000)
-console.log('Running a GraphQL API server at localhost:4000/graphql')
+}).listen(4000).then(url=>console.log(`Running a GraphQL API server at ${url}`))

@@ -5,8 +5,12 @@
     "lerna": "^3.5.1"
   },
   "dependencies": {
+    "eslint": "^5.10.0",
+    "eslint-plugin-graphql": "^3.0.1",
     "graphql": "^14.0.2",
+    "graphql-compose": "^5.3.4",
     "graphql-tag": "^2.10.0",
-    "graphql-tools": "^4.0.3"
+    "graphql-tools": "^4.0.3",
+    "uuid": "^3.3.2"
   }
 }

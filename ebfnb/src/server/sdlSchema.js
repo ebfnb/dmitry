@@ -37,10 +37,6 @@ type Task {
     createdDate: Int
     completedDate: Int
 }
-input LoginInput{
-    username:String
-    password:String
-}
 type LoginPayload{
     errors:[String]
     currentUser:UserProfile
@@ -49,16 +45,20 @@ type ErrorsPayload {
     errors:[String]
 }
 type Mutation {
+    #current user
     login(username:String,password:String): LoginPayload
     logout: ErrorsPayload
-    createTask: Task
+    updateCurrentUserProfile(updater:UserProfile):ErrorsPayload
+    updateCurrentUserCredentials(username:String,password:String):ErrorsPayload
+    registerUser(username:String,password:String):LoginPayload
+
+    #tasks
+    updateTask(id:ID,updater:): ErrorsPayload
 }
 
 
 type Query {
-    findUser(id:ID):{
-        errors:[String]
-    }
+    findUser(id:ID):User
     currentUser:User
 }
 
