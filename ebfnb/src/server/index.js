@@ -1,9 +1,12 @@
-const { ApolloServer } = require('apollo-server-express')
+const { ApolloServer } = require('apollo-server')
 import {reduce} from 'ramda'
-import {toFunc} from 'm8-tools'
-import schema from './sdlSchema'
+import {toFunc} from '../utils'
+import schema from './schema'
 
-new ApolloServer({...schema,
+const mockStore={users:[]}
+const server=new ApolloServer({schema,
+  rootValue:mockStore,
   graphiql: true,
   pretty:true,
-}).listen(4000).then(url=>console.log(`Running a GraphQL API server at ${url}`))
+})
+server.listen().then(({url})=>console.log(`Running a GraphQL API server at ${url}`))

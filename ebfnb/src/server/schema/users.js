@@ -4,13 +4,6 @@ const uuidv1 = require('uuid/v1')
 
 const {TypeComposer,InputTypeComposer,Query,Mutation}=schemaComposer
 let currentUser
-const configTC=([name,dataType=name])=>({
-  name:`${name}Output`,
-  fields:{
-    errors:`[Error]`,
-    data:dataType
-  }
-})
 const UserProfile=TypeComposer.create({
   name: 'UserProfile',
   fields: {
@@ -34,28 +27,41 @@ TypeComposer.create({
     profile:'UserProfile'
   }
 })
-const UserCredentialsInput=InputTypeComposer.create(`type UserCredentialsInput {
+const UserCredentialsInput=InputTypeComposer.create(`input UserCredentialsInput {
     username:String
     password:String
 }`)
-//UserCredentialsInput.clone('RegisterInput')
+const RegisterInput=InputTypeComposer.create({
+    name:'RegisterInput',
+    fields:{
+        username:'String',
+        password:'String',
+        profile:UserProfile.getInputTypeComposer()
+    }
+})
 TypeComposer.create(`type ErrorsPayload {
     errors:[String]
 }`)
 TypeComposer.create(`type LoginPayload {
     errors:[String]
-    data:CurrentUser
+    data:UserProfile
 }`)
 Mutation.addFields({
     login:{
         type:'LoginPayload',
         args:{input:UserCredentialsInput},
-        resolve:(mockStore,{input:{username,password}})=>{
+        resolve:(mockStore,{input})=>{
+            console.log(mockStore)
+            const {username,password}=input
             const errors=[]
             const users=mockStore.users
             const user=_.find(_.propEq('username',username))(users)
-            if(!user)errors.push(`can not find user ${username}`)
-            if(user.password!==password)errors.push(`bad password`)
+            if(!user)return {
+                errors:[`can not find user ${username}`]
+            }
+            if(user.password!==password)return {
+                errors:['bad pssword']
+            }
             currentUser=user
             return {errors,
                 data:user.profile
@@ -70,9 +76,9 @@ Mutation.addFields({
         },
     },
     register:{
-        type:'RegisterInput',
-        args:{input:UserCredentialsInput},
-        resolve:(mockStore,{input:{username,password,profile}})=>{
+        type:'ErrorsPayload',
+        args:{input:RegisterInput},
+        resolve:(mockStore,{input:{username,password,profile={}}})=>{
             mockStore.users.push({username,password,profile,
                 id:uuidv1(),
                 roles:['registered']
@@ -104,4 +110,4 @@ Query.addFields({
     }),
   },
 })
-console.log(schemaComposer.Mutation)
+console.log(UserProfile.getInputTypeComposer().getTypeName())

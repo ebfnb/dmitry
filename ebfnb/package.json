@@ -11,9 +11,11 @@
     "express": "^4.16.4",
     "express-graphql": "^0.7.1",
     "graphql": "^14.0.2",
+    "graphql-compose": "^5.3.4",
     "graphql-tag": "^2.10.0",
     "graphql-tools": "^4.0.3",
     "informed": "^1.10.9",
+    "m8-tools": "file:../packages/m8-packages/tools",
     "node-sass": "^4.10.0",
     "prop-types": "^15.6.2",
     "ramda": "^0.26.0",
@@ -25,17 +27,14 @@
     "recompose": "^0.30.0",
     "tcomb": "^3.2.29",
     "tcomb-validation": "^3.4.1",
-    "m8-tools": "^1.0.0",
-    "uuid": "^3.3.2",
-    "m8-tasks":"^1.0.0",
-    "m8-users":"^1.0.0"
+    "uuid": "^3.3.2"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "server": "NODE_ENV=${NODE_ENV:=development} babel-node src/server.js"
+    "server": "NODE_ENV=${NODE_ENV:=development} babel-node src/server/index.js"
   },
   "eslintConfig": {
     "extends": "react-app"
