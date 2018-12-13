@@ -4,52 +4,35 @@ const uuidv1 = require('uuid/v1')
 
 const {TypeComposer,InputTypeComposer,Query,Mutation}=schemaComposer
 let currentUser
-const UserProfile=TypeComposer.create({
-  name: 'UserProfile',
-  fields: {
-    firstName: 'String',
-    lastName: 'String',
-    notes:'String',
-    name:{
-      type:'String',
-      description:'full name',
-      resolver:user=>`${user.firstName} ${user.lastName}`
-    }
-  }
-})
-TypeComposer.create({
-  name: 'User',
-  fields: {
-    id:'ID',
-    username:'String',
-    password:'String',
-    roles:'[String]',
-    profile:'UserProfile'
-  }
-})
-const UserCredentialsInput=InputTypeComposer.create(`input UserCredentialsInput {
-    username:String
-    password:String
-}`)
-const RegisterInput=InputTypeComposer.create({
-    name:'RegisterInput',
-    fields:{
-        username:'String',
-        password:'String',
-        profile:UserProfile.getInputTypeComposer()
-    }
-})
+
 TypeComposer.create(`type ErrorsPayload {
     errors:[String]
 }`)
-TypeComposer.create(`type LoginPayload {
+const UserProfile=TypeComposer.create(`type UserProfile {
+    firstName:String
+    lastName:String
+    notes:String
+    roles:[String]
+}`)
+const CurrentUserPayload=TypeComposer.create(`type CurrentUserPayload {
     errors:[String]
     data:UserProfile
 }`)
+const UserProfileInput=InputTypeComposer.create(`input UserProfileInput {
+    firstName:String
+    lastName:String
+    notes:String
+    roles:[String]
+}`)
 Mutation.addFields({
     login:{
-        type:'LoginPayload',
-        args:{input:UserCredentialsInput},
+        type:CurrentUserPayload,
+        args:{
+            input:InputTypeComposer.create(`input LoginInput {
+                username:String
+                password:String
+            }`)
+        },
         resolve:(mockStore,{input})=>{
             console.log(mockStore)
             const {username,password}=input
@@ -76,8 +59,14 @@ Mutation.addFields({
         },
     },
     register:{
-        type:'ErrorsPayload',
-        args:{input:RegisterInput},
+        type:'CurrentUserPayload',
+        args:{
+            input:InputTypeComposer.create(`input RegisterInput {
+                username:String
+                password:String
+                profile:UserProfileInput
+            }`)
+        },
         resolve:(mockStore,{input:{username,password,profile={}}})=>{
             mockStore.users.push({username,password,profile,
                 id:uuidv1(),
@@ -88,7 +77,7 @@ Mutation.addFields({
     },
     updateCurrentUserProfile:{
         type:'ErrorsPayload',
-        args:{input:UserProfile.getInputTypeComposer()},
+        args:{input:UserProfileInput},
         resolve:(__,{input:profileUpdater})=>{
             if(!currentUser)return {
                 errors:['no current user']
@@ -100,14 +89,10 @@ Mutation.addFields({
 
 Query.addFields({
   CurrentUser:{
-    type:`type CurrentUserPayload {
-        errors:[String]
-        data:UserProfile
-    }`,
+    type:CurrentUserPayload,
     resolve:()=>({
         errors:[],
         data:currentUser.profile
     }),
   },
 })
-console.log(UserProfile.getInputTypeComposer().getTypeName())

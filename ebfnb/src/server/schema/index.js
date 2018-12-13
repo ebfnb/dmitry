@@ -1,4 +1,4 @@
 import {schemaComposer} from 'graphql-compose'
-import './users'
+import './currentUser'
 
 export default schemaComposer.buildSchema()

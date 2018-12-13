@@ -4,14 +4,20 @@ import React from 'react'
 import LoginForm from './LoginForm'
 import {Redirect} from 'react-router-dom'
 
-const LOGIN = gql`
+const login = gql`
   mutation login($username:String,$password:String){
       login(username:$username,password:$password){name}
   }
 `
-export default () => {
+const register = gql`
+  mutation login($username:String,$password:String){
+      login(username:$username,password:$password){name}
+  }
+`
+export default ({loginRegister}) => {
+    const mutation=(loginRegister==='login')?login:register
     return (
-        <Mutation mutation={LOGIN}>
+        <Mutation mutation={login}>
             {(login,{error,loading,called})=>{
                 if(called && !error && !loading)return (
                     <Redirect to='/'/>
