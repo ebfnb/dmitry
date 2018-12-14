@@ -1,98 +1,89 @@
 import {schemaComposer} from 'graphql-compose'
+import handleResolverErrors from './handleResolverErrors'
+import {ServerError,CurrentUserError} from './errorClasses'
 import _ from 'ramda'
 const uuidv1 = require('uuid/v1')
 
 const {TypeComposer,InputTypeComposer,Query,Mutation}=schemaComposer
 let currentUser
-
-TypeComposer.create(`type ErrorsPayload {
-    errors:[String]
-}`)
-const UserProfile=TypeComposer.create(`type UserProfile {
+const throwServerError=(message)=>{
+    throw new ServerError({ data:{message}})
+}
+const UserProfileTC=TypeComposer.create(`type UserProfile {
     firstName:String
     lastName:String
     notes:String
     roles:[String]
 }`)
-const CurrentUserPayload=TypeComposer.create(`type CurrentUserPayload {
-    errors:[String]
-    data:UserProfile
+const CurrentUserTC=TypeComposer.create(`type CurrentUser {
+    currentUser:UserProfile
 }`)
-const UserProfileInput=InputTypeComposer.create(`input UserProfileInput {
+const UserProfileITC=InputTypeComposer.create(`input UserProfileInput {
     firstName:String
     lastName:String
     notes:String
     roles:[String]
+}`)
+const LoginITC=InputTypeComposer.create(`input LoginInput {
+    username:String
+    password:String
+}`)
+const RegisterITC=InputTypeComposer.create(`input RegisterInput {
+    username:String
+    password:String
+    profile:UserProfileInput
 }`)
 Mutation.addFields({
     login:{
-        type:CurrentUserPayload,
-        args:{
-            input:InputTypeComposer.create(`input LoginInput {
-                username:String
-                password:String
-            }`)
-        },
-        resolve:(mockStore,{input})=>{
-            console.log(mockStore)
-            const {username,password}=input
-            const errors=[]
-            const users=mockStore.users
-            const user=_.find(_.propEq('username',username))(users)
-            if(!user)return {
-                errors:[`can not find user ${username}`]
+        name:'login',
+        type:'Void',
+        args:{input:LoginITC},
+        resolve:handleResolverErrors(
+            ({users},{input:{username,password}})=>{
+                const user=_.find(_.propEq('username',username))(users)
+                if(!user)throwServerError(`can not find user ${username}`)
+                if(user.password!==password)throwServerError(`bad password`)
+                currentUser=user
+                return {}
             }
-            if(user.password!==password)return {
-                errors:['bad pssword']
-            }
-            currentUser=user
-            return {errors,
-                data:user.profile
-            }
-        }
+        )
     },
     logout:{
-        type:'ErrorsPayload',
+        type:'Void',
         resolve:()=>{
             currentUser=undefined
-            return {errors:[]}
+            return {}
         },
     },
     register:{
-        type:'CurrentUserPayload',
-        args:{
-            input:InputTypeComposer.create(`input RegisterInput {
-                username:String
-                password:String
-                profile:UserProfileInput
-            }`)
-        },
-        resolve:(mockStore,{input:{username,password,profile={}}})=>{
-            mockStore.users.push({username,password,profile,
-                id:uuidv1(),
-                roles:['registered']
-            })
-            return {errors:[]}
-        }
+        type:'Void',
+        args:{input:RegisterITC},
+        resolve:handleResolverErrors(
+            ({users},{input:{username,password,profile={}}})=>{
+                if(_.find(_.propEq('username',username))(users))throwServerError(`username ${username} not available`)
+                users.push({username,password,profile,
+                    id:uuidv1(),
+                    roles:['registered']
+                })
+                return {}
+            }
+        )
     },
     updateCurrentUserProfile:{
-        type:'ErrorsPayload',
-        args:{input:UserProfileInput},
+        type:'Void',
+        args:{input:UserProfileITC},
         resolve:(__,{input:profileUpdater})=>{
-            if(!currentUser)return {
-                errors:['no current user']
-            }
+            if(!currentUser)throwServerError('no current user')
             Object.assign(currentUser.profile,profileUpdater)
+            return {}
         }
     }
 })
-
 Query.addFields({
   CurrentUser:{
-    type:CurrentUserPayload,
-    resolve:()=>({
-        errors:[],
-        data:currentUser.profile
-    }),
+    type:'CurrentUser',
+    resolve:()=>(
+        currentUser?{currentUser:currentUser.profile}:{}
+    )
   },
 })
