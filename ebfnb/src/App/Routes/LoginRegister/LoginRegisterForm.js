@@ -3,7 +3,7 @@ import {Form,Text} from 'informed'
 import {Redirect} from 'react-router-dom'
 import {useState} from 'react'
 
-export default ({onLogin,errorMsg,loading,redirectOnCancel = "/"})=>{
+export default ({isLogin,onSubmit,graphqlFieldErrors,redirectOnCancel = "/"})=>{
     const [isCancelled,setCancelled]=useState(false)
     if (isCancelled) return (
         <Redirect to={redirectOnCancel} />

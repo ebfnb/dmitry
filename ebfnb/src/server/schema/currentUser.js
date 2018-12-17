@@ -1,14 +1,11 @@
 import {schemaComposer} from 'graphql-compose'
 import handleResolverErrors from './handleResolverErrors'
-import {ServerError,CurrentUserError} from './errorClasses'
+import {AuthenticationError, UserInputError} from 'apollo-server'
 import _ from 'ramda'
 const uuidv1 = require('uuid/v1')
 
 const {TypeComposer,InputTypeComposer,Query,Mutation}=schemaComposer
 let currentUser
-const throwServerError=(message)=>{
-    throw new ServerError({ data:{message}})
-}
 const UserProfileTC=TypeComposer.create(`type UserProfile {
     firstName:String
     lastName:String
@@ -38,15 +35,17 @@ Mutation.addFields({
         name:'login',
         type:'Void',
         args:{input:LoginITC},
-        resolve:handleResolverErrors(
-            ({users},{input:{username,password}})=>{
-                const user=_.find(_.propEq('username',username))(users)
-                if(!user)throwServerError(`can not find user ${username}`)
-                if(user.password!==password)throwServerError(`bad password`)
-                currentUser=user
-                return {}
-            }
-        )
+        resolve:({users},{input:{username,password}})=>{
+            const user=_.find(_.propEq('username',username))(users)
+            if(!user)throw new UserInputError('Invalid field values',{
+                fieldErrors:{username:`can not find user ${username}`}
+            })
+            if(user.password!==password)throwServerError('Invalid field values',{
+                fieldErrors:{password:'password does not match'}
+            })
+            currentUser=user
+            return {}
+        }
     },
     logout:{
         type:'Void',
@@ -58,22 +57,22 @@ Mutation.addFields({
     register:{
         type:'Void',
         args:{input:RegisterITC},
-        resolve:handleResolverErrors(
-            ({users},{input:{username,password,profile={}}})=>{
-                if(_.find(_.propEq('username',username))(users))throwServerError(`username ${username} not available`)
-                users.push({username,password,profile,
-                    id:uuidv1(),
-                    roles:['registered']
-                })
-                return {}
-            }
-        )
+        resolve:({users},{input:{username,password,profile={}}})=>{
+            if(_.find(_.propEq('username',username))(users))throw new UserInputError('Invalid field values',{
+                fieldErrors:{username:`this username is not available`}
+            })
+            users.push({username,password,profile,
+                id:uuidv1(),
+                roles:['registered']
+            })
+            return {}
+        }
     },
     updateCurrentUserProfile:{
         type:'Void',
         args:{input:UserProfileITC},
         resolve:(__,{input:profileUpdater})=>{
-            if(!currentUser)throwServerError('no current user')
+            if(!currentUser)throw new UserInputError('Please, register')
             Object.assign(currentUser.profile,profileUpdater)
             return {}
         }
