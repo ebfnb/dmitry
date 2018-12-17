@@ -1,5 +1,4 @@
 import {asField} from 'informed'
-import classnames from 'classnames'
 import {Field} from 'react-bulma-components/full'
 
 const RichField=asField(

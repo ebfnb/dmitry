@@ -1,68 +1,90 @@
-import React from 'react'
+import React,{useState} from 'react'
 import { Link } from "react-router-dom"
-import {useCurrentUser} from '../hooks'
+import {Navbar} from 'react-bulma-components/full'
+import {ForRegisteredUser} from '../ForRegisteredUser'
+import {ForUnregisteredUser} from '../ForUnregisteredUser'
 
+const DefaultMenu=()=>{(
+    <React.Fragment>
+        <Navbar.Item>
+            <Link to="/">Home</Link>
+        </Navbar.Item>
+        <Navbar.Item>
+            <Link to="/about">About</Link>
+        </Navbar.Item>
+        <Navbar.Item>
+            <Link to="/volunteer">Volunteer</Link>
+        </Navbar.Item>
+    </React.Fragment>
+)}
+const TasksDropdownMenu=()=>{(
+    <Navbar.Item dropdown hoverable>
+        <Navbar.Link>Tasks</Navbar.Link>
+        <Navbar.dropdown>
+            <Navbar.Item>
+                <Link to="/myTasks">My tasks</Link>
+            </Navbar.Item>
+        </Navbar.dropdown>
+    </Navbar.Item>
+)}
+const AccountsMenu=()=>{(
+    <Navbar.Item>
+        <React.Fragment>
+            <div className='buttons'>
+                <ForRegisteredUser>
+                    <Link to="/signout" className='button is-primary'>
+                        <strong>Sign out</strong>
+                    </Link>
+                    <Link to="/profile" className="button is-light">
+                        My profile
+                    </Link>
+                </ForRegisteredUser>
+                <ForUnregisteredUser>
+                    <Link to="/signup" className="button is-primary">
+                        <strong>Sign up</strong>
+                    </Link>
+                    <Link to="/login" className="button is-light">
+                        Log in
+                    </Link>
+                </ForUnregisteredUser>
+            </div> 
+        </React.Fragment>
+    </Navbar.Item>
+)}
 export default ()=>{
-    const {forRole}=useCurrentUser()
+    const [isOpen,setOpen]=useState(false)
     return (
-        <nav className="navbar" role="navigation" aria-label="main navigation">
-            <div  className="navbar-brand">
-                <a className="navbar-item" href="https://bulma.io">
-                    <img src="https://bulma.io/images/bulma-logo.png" alt="bulma-logo" width="112" height="28"/>
-                </a>
-
-                <a role="button" href='#!' className="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-                    <span aria-hidden="true"></span>
-                    <span aria-hidden="true"></span>
-                    <span aria-hidden="true"></span>
-                </a>
-            </div>
-            <div  className="navbar-menu" id="navbarBasicExample">
-                <div  className="navbar-start">
-                    <Link to="/" className="navbar-item">
-                        Home
-                    </Link>
-                    <Link to="/about" className="navbar-item">
-                        About
-                    </Link>
-                    <Link to="/volunteer" className="navbar-item">
-                        Volunteer
-                    </Link>
-                    <div className="navbar-item has-dropdown is-hoverable">
-                        <a className="navbar-link" href="/">
-                            More
-                        </a>
-
-                        <div className="navbar-dropdown">
-                            <Link to="/myTasks" className={forRole('volunteer')("navbar-item")}>
-                                My tasks
-                            </Link>
-                            <Link to="/createTask" className={forRole('taskCreator')("navbar-item")}>
-                                Create task
-                            </Link>
-                            <Link className="navbar-item" to="/contact">
-                                Contact
-                            </Link>
-                        </div>
-                    </div>
-                </div>
-                <div  className="navbar-end">
-                    <div className="buttons">
-                        <Link to="/signout" className={forRole('registered')("button is-primary")}>
-                            <strong>Sign out</strong>
-                        </Link>
-                        <Link to="/profile" className={forRole('registered')("button is-light")}>
-                            My profile
-                        </Link>
-                        <Link to="/signup" className={forRole('unregistered')("button is-primary")}>
-                            <strong>Sign up</strong>
-                        </Link>
-                        <Link to="/login" className={forRole('unregistered')("button is-light")}>
-                            Log in
-                        </Link>
-                    </div>
-                </div>
-            </div>
-        </nav>
-     )
+        <Navbar fixed
+          color='primary'
+          role="navigation" 
+          aria-label="main navigation"
+        >
+          <Navbar.Brand>
+            <Navbar.Item renderAs="a" href="#">
+              <img
+                src="https://bulma.io/images/bulma-logo.png"
+                alt="Bulma: a modern CSS framework based on Flexbox"
+                width="112"
+                height="28"
+              />
+            </Navbar.Item>
+            <Navbar.Burger
+              active={isOpen}
+              onClick={() =>setOpen(!isOpen)}
+            />
+          </Navbar.Brand>
+          <Navbar.Menu active={isOpen}>
+            <Navbar.Container>
+               <DefaultMenu/>
+                <ForRegisteredUser>
+                   <TasksDropdownMenu/>
+                </ForRegisteredUser>
+            </Navbar.Container>
+            <Navbar.Container position="end">
+                <AccountsMenu/>
+            </Navbar.Container>
+          </Navbar.Menu>
+        </Navbar>
+      )
 }
+
