@@ -3,7 +3,8 @@ import React from 'react'
 import { ApolloProvider } from 'react-apollo'
 import { BrowserRouter as Router, Route} from "react-router-dom"
 import {Layout,ErrorHandler} from './Components'
-import {LoginRegister,Home} from './Routes'
+import {LoginRegister,Home} from './Containers'
+import Provider from 'unistore/react'
 
 export default ()=>(
     <ErrorHandler>

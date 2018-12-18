@@ -29,6 +29,7 @@
     "recompose": "^0.30.0",
     "tcomb": "^3.2.29",
     "tcomb-validation": "^3.4.1",
+    "unistore": "^3.1.0",
     "uuid": "^3.3.2"
   },
   "scripts": {
