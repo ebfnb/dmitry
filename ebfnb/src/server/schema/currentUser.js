@@ -33,7 +33,7 @@ const RegisterITC=InputTypeComposer.create(`input RegisterInput {
 Mutation.addFields({
     login:{
         name:'login',
-        type:'Void',
+        type:'CurrentUser',
         args:{input:LoginITC},
         resolve:({users},{input:{username,password}})=>{
             const user=_.find(_.propEq('username',username))(users)
@@ -44,7 +44,7 @@ Mutation.addFields({
                 fieldErrors:{password:'password does not match'}
             })
             currentUser=user
-            return {}
+            return user.profile
         }
     },
     logout:{
@@ -55,17 +55,18 @@ Mutation.addFields({
         },
     },
     register:{
-        type:'Void',
+        type:'CurrentUser',
         args:{input:RegisterITC},
         resolve:({users},{input:{username,password,profile={}}})=>{
             if(_.find(_.propEq('username',username))(users))throw new UserInputError('Invalid field values',{
                 fieldErrors:{username:`this username is not available`}
             })
-            users.push({username,password,profile,
+            currentUser={username,password,profile,
                 id:uuidv1(),
                 roles:['registered']
-            })
-            return {}
+            }
+            users.push(currentUser)
+            return currentUser.profile
         }
     },
     updateCurrentUserProfile:{
