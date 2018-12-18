@@ -17,15 +17,15 @@ const register = gql`
       register(input:$input){void}
   }
 `
-const LoginRegister= ({client,isLogin}) => {
+const LoginRegister= ({setCurrentUser,client,isLogin}) => {
     return (
         <Mutation 
             mutation={isLogin?login:register}
         >
-            {(mutate,{loading,called,error})=>{
+            {(mutate,{loading,called,error,data:currentUser})=>{
                 handleGraphqlErrors(error)
                 if(called && !error && !loading){
-                    client.resetStore()
+                    setCurrentUser(currentUser)
                     return (<Redirect to='/'/>)
                 }
                 const onSubmit=(input)=> mutate({
