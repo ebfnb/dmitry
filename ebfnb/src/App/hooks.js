@@ -1,7 +1,8 @@
 import {useState, useEffect} from 'react'
 const _=require('ramda')
-import store from './store'
+import config from './config'
 
+const {store:{store}}=config
 const useCurrentUser=()=>{
     useEffect(
         ()=>store.subscribe(

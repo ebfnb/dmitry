@@ -5,7 +5,7 @@ import LoginRegisterForm from './LoginRegisterForm'
 import {Redirect} from 'react-router-dom'
 import _ from 'ramda'
 import ApolloConsumer from 'react-apollo'
-import {handleGraphqlErrors} from '../../utils'
+import {throwServerErrors} from '../../utils'
 
 const login = gql`
   mutation login($input:LoginInput){
@@ -23,7 +23,7 @@ const LoginRegister= ({setCurrentUser,client,isLogin}) => {
             mutation={isLogin?login:register}
         >
             {(mutate,{loading,called,error,data:currentUser})=>{
-                handleGraphqlErrors(error)
+                throwServerErrors(error)
                 if(called && !error && !loading){
                     setCurrentUser(currentUser)
                     return (<Redirect to='/'/>)

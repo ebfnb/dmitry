@@ -1,16 +1,16 @@
-import client from "./apolloClient";
 import React from 'react'
 import { ApolloProvider } from 'react-apollo'
 import { BrowserRouter as Router, Route} from "react-router-dom"
 import {Layout,ErrorHandler} from './Components'
 import {LoginRegister,Home} from './Containers'
 import {Provider as StoreProvider} from 'unistore/react'
-import store from './store'
+import config from './config'
 
+const {store:{store},apolloClient}=config
 export default ()=>(
     <ErrorHandler>
        <StoreProvider store={store}>
-            <ApolloProvider client={client}>
+            <ApolloProvider client={apolloClient}>
                 <Router>
                     <div>
                         <Layout/>
