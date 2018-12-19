@@ -4,7 +4,6 @@ import React from 'react'
 import LoginRegisterForm from './LoginRegisterForm'
 import {Redirect} from 'react-router-dom'
 import _ from 'ramda'
-import ApolloConsumer from 'react-apollo'
 import {throwServerErrors} from '../../utils'
 import {useCurrentUser} from '../../hooks/useCurrentUser'
 
@@ -34,7 +33,7 @@ const LoginRegister= ({isLogin}) => {
                     variables:{input}
                 })
                 const graphqlFieldErrors=
-                    !!error && error.extentions.code==='BAD_USER_INPUT' && error.extentions.exception.fieldErrors
+                    !!error && error.extentions.exception.fieldErrors
                 return (
                     <div>
                         <LoginRegisterForm isLogin={isLogin} onSubmit={onSubmit} graphqlFieldErrors={graphqlFieldErrors}/>
