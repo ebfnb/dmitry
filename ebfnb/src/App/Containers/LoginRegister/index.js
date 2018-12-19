@@ -26,6 +26,7 @@ const LoginRegister= ({isLogin}) => {
             mutation={isLogin?login:register}
         >
             {(mutate,{loading,called,error,data:currentUser})=>{
+                //this will throw ServerError and write other errors to errors message list to be displayed by global status bar
                 handleServerErrors(error)
                 if(called && !error && !loading){
                     setCurrentUser(currentUser)

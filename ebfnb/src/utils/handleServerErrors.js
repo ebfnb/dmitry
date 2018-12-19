@@ -1,6 +1,9 @@
 import _ from 'ramda'
 import toArr from './toArr'
 
+//this hook needs to live outside App
+import {useMessageList} from '../App/hooks'
+
 class ServerError extends Error{
     constructor(graphqlError){
         super(...args)
@@ -9,7 +12,9 @@ class ServerError extends Error{
 }
 export default (errors)=>{
     const errorsList=toArr(errors)
+    const {writeMessages}=useMessageList('errors','asWriter')
     _.map((graphqlError)=>{
         if(graphqlError.extentions.code==='INTERNAL_SERVER_ERROR')throw new ServerError(graphqlError)
+        writeMessages(`${graphqlError.extentions.code} error`)
     })(errorsList)
 }
