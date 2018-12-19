@@ -6,6 +6,8 @@ import {Redirect} from 'react-router-dom'
 import _ from 'ramda'
 import {throwServerErrors} from '../../utils'
 import {useCurrentUser} from '../../hooks/useCurrentUser'
+import {useMessageList} from '../../hooks/useMessageList'
+
 
 const login = gql`
   mutation login($input:LoginInput){
@@ -24,7 +26,7 @@ const LoginRegister= ({isLogin}) => {
             mutation={isLogin?login:register}
         >
             {(mutate,{loading,called,error,data:currentUser})=>{
-                throwServerErrors(error)
+                handleServerErrors(error)
                 if(called && !error && !loading){
                     setCurrentUser(currentUser)
                     return (<Redirect to='/'/>)

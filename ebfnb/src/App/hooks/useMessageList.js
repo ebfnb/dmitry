@@ -6,7 +6,7 @@ import {useState,useEffect} from 'react'
 //initialize part of store state we own
 !store.getState().messageLists && (store.getState().messageLists={})
 
-const useMessageList=(name)=>{
+const useMessageList=(name,asWriterOrReader)=>{
     const getMessages=()=>store.getState().messageLists[name]
     const setMessagesInStore=(messages)=>store.setState({messageLists:{...getMessages(name),
         [name]:messages
@@ -14,19 +14,29 @@ const useMessageList=(name)=>{
 
     //init message list in store
     !getMessages() && (getMessages()[name]=[])
-    const [messages,setMessagesInState]=useState(getMessages())
-    useEffect(
-        ()=>store.subscribe(
-            ()=>(!_.equal(messages,getMessages()) && setMessagesInState(getMessages()))
+    if(asWriterOrReader==='asReader'){
+        const [messagesInState,setMessagesInState]=useState(getMessages())
+        useEffect(
+            ()=>store.subscribe(
+                ()=>(!_.equal(messagesInState,getMessages()) && setMessagesInState(getMessages()))
+            )
         )
-    )
-    const writeMessages=(messages)=>{
-        const messages=_.dropRepeats([...getMessages(),...toArr(message)])
-        if(messages.length!=getMessages().length) {
-            setMessagesInStore(messages)
+        return {
+            messages:messagesInState
         }
     }
-    const eraseMessage=(message)=>{
-       const updatedMessages=_.reject(_.equal)
+    if(asWriterOrReader==='asWriter'){
+        const updateMessagesOnLength=(updatedMessages)=>{
+            if(updatedMessages.length!=messagesInState.length) {
+                setMessagesInStore(updatedMessages)
+            }
+        }
+        const writeMessages=(messages)=>updateMessagesOnLength(
+            _.dropRepeats([...messagesInState,...toArr(messages)])
+        )
+        const eraseMessage=(message)=>updateMessagesOnLength(
+            _.reject(_.equals(message))(messagesInState)
+        )
+        return {writeMessages,eraseMessage}
     }
 }
