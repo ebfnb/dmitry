@@ -1,5 +1,6 @@
 import {useState, useEffect} from 'react'
 import store from './config/store/store'
+import apolloClient from './config/apolloClient'
 
 const useCurrentUser=()=>{
     const [currentUser,setCurrentUserInState]=useState(
@@ -10,7 +11,10 @@ const useCurrentUser=()=>{
             (store)=>setCurrentUserInState(store.currentUser)
         )
     )
-    const setCurrentUserInStore=(currentUser)=>store.setState(currentUser)
-    return [currentUser,setCurrentUserInStore]
+    const setCurrentAction=(currentUser)=>{
+        apolloClient.resetStore()
+        store.setState(currentUser)
+    }
+    return [currentUser,setCurrentUserAction]
 }
 export default {useCurrentUser}
