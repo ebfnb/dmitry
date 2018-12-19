@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react'
-import store from './config/store/store'
+import store from './store'
 import apolloClient from './config/apolloClient'
 import _ from 'ramda'
 
