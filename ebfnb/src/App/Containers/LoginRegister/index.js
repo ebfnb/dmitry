@@ -6,20 +6,20 @@ import {Redirect} from 'react-router-dom'
 import _ from 'ramda'
 import ApolloConsumer from 'react-apollo'
 import {throwServerErrors} from '../../utils'
-import {connect} from 'unistore'
-import {actions} from '../../config/store/actions'
+import {useCurrentUser} from '../../hooks/useCurrentUser'
 
 const login = gql`
   mutation login($input:LoginInput){
-      login(input:$input){void}
+      login(input:$input){CurrentUser}
   }
 `
 const register = gql`
   mutation register($input:RegisterInput){
-      register(input:$input){void}
+      register(input:$input){CurrentUser}
   }
 `
-const Component= ({setCurrentUser,client,isLogin}) => {
+const LoginRegister= ({isLogin}) => {
+    const [currentUser,setCurrentUser]=useCurrentUser()
     return (
         <Mutation 
             mutation={isLogin?login:register}
@@ -45,9 +45,4 @@ const Component= ({setCurrentUser,client,isLogin}) => {
         </Mutation>
     )
 }
-const LoginRegister=connect([],_.pick('setCurrentUser',actions))(Component)
-export default (
-    <ApolloConsumer>
-        <LoginRegister/>
-    </ApolloConsumer>
-)
+export default LoginRegister

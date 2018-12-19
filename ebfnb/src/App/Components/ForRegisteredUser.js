@@ -1,4 +1,4 @@
-import {useCurrentUser} from '../hooks'
+import {useCurrentUser} from '../hooks/useCurrentUser'
 import React from 'react'
 
 const ForRegisteredUser=({children})=>{
