@@ -1,29 +1,12 @@
-import {useState, useEffect} from 'react'
-import store from './store'
-import apolloClient from './config/apolloClient'
-import {useClient} from 'react-apollo-hooks'
-import _ from 'ramda'
+import useQuery from './useQuery'
+import currentUserSchema from '../../schema/currentUser'
 
-//initialize part of store state we own
-!store.currentUser && (store.currentUser={})
+const {
+    queries:{currentUser},
+}=currentUserSchema
 
-//store and client will be exposed thru M8Provider by using useM8Context hook or/and M8Consumer component
 const useCurrentUser=()=>{
-    const [currentUser,setCurrentUserInState]=useState(
-        store.getState().currentUser
-    )
-    const client=useClient()
-    useEffect(
-        ()=>store.subscribe(
-            (store)=>{
-                !_.equals(store.currentUser,currentUser) && setCurrentUserInState(store.currentUser)
-            }
-        )
-    )
-    const setCurrentAction=(currentUser)=>{
-        client.resetStore()
-        store.setState(currentUser)
-    }
-    return [currentUser,setCurrentUserAction]
+    const {data:{currentUser}}=useQuery(currentUser)
+    return currentUser
 }
-export default {useCurrentUser}
+export default currentUser

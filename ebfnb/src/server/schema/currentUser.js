@@ -11,14 +11,10 @@ const UserProfileTC=TypeComposer.create(`type UserProfile {
     notes:String
     roles:[String]
 }`)
-const CurrentUserTC=TypeComposer.create(`type CurrentUser {
-    currentUser:UserProfile
-}`)
-const UserProfileITC=InputTypeComposer.create(`input UserProfileInput {
+const UpdateProfileITC=InputTypeComposer.create(`input UpdateProfileInput {
     firstName:String
     lastName:String
     notes:String
-    roles:[String]
 }`)
 const LoginITC=InputTypeComposer.create(`input LoginInput {
     username:String
@@ -32,7 +28,7 @@ const RegisterITC=InputTypeComposer.create(`input RegisterInput {
 Mutation.addFields({
     login:{
         name:'login',
-        type:'CurrentUser',
+        type:'Void',
         args:{input:LoginITC},
         resolve:({users},{input:{username,password}})=>{
             const user=_.find(_.propEq('username',username))(users)
@@ -43,7 +39,6 @@ Mutation.addFields({
                 fieldErrors:{password:'password does not match'}
             })
             currentUser=user
-            return user.profile
         }
     },
     logout:{
@@ -54,7 +49,7 @@ Mutation.addFields({
         },
     },
     register:{
-        type:'CurrentUser',
+        type:'Void',
         args:{input:RegisterITC},
         resolve:({users},{input:{username,password,profile={}}})=>{
             if(_.find(_.propEq('username',username))(users))throw new UserInputError('Invalid field values',{
@@ -65,12 +60,11 @@ Mutation.addFields({
                 roles:['registered']
             }
             users.push(currentUser)
-            return currentUser.profile
         }
     },
-    updateCurrentUserProfile:{
+    updateProfile:{
         type:'Void',
-        args:{input:UserProfileITC},
+        args:{input:UpdateProfileITC},
         resolve:(__,{input:profileUpdater})=>{
             if(!currentUser)throw new UserInputError('Please, register')
             Object.assign(currentUser.profile,profileUpdater)
@@ -80,7 +74,7 @@ Mutation.addFields({
 })
 Query.addFields({
   CurrentUser:{
-    type:'CurrentUser',
+    type:'UserProfile',
     resolve:()=>(
         currentUser?{currentUser:currentUser.profile}:{}
     )

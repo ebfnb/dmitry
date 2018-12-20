@@ -1,4 +1,4 @@
-import store from './store'
+import store from '../store'
 import _ from 'ramda'
 import toArr from '../../utils/toArr'
 import {useState,useEffect} from 'react'

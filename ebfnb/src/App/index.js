@@ -4,9 +4,12 @@ import { BrowserRouter as Router, Route} from "react-router-dom"
 import {Layout,ErrorHandler} from './Components'
 import {LoginRegister,Home} from './Containers'
 import {Provider as StoreProvider} from 'unistore/react'
-import config from './config'
+import ApolloClient from "apollo-boost"
+import store from './store'
 
-const {store:{store},apolloClient}=config
+const apolloClient=new ApolloClient({
+    uri:'http://localhost:4000/graphql'
+})
 export default ()=>(
     <ErrorHandler>
        <StoreProvider store={store}>
