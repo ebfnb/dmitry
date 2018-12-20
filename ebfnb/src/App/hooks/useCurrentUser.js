@@ -1,6 +1,7 @@
 import {useState, useEffect} from 'react'
 import store from './store'
 import apolloClient from './config/apolloClient'
+import {useClient} from 'react-apollo-hooks'
 import _ from 'ramda'
 
 //initialize part of store state we own
@@ -11,6 +12,7 @@ const useCurrentUser=()=>{
     const [currentUser,setCurrentUserInState]=useState(
         store.getState().currentUser
     )
+    const client=useClient()
     useEffect(
         ()=>store.subscribe(
             (store)=>{
@@ -19,7 +21,7 @@ const useCurrentUser=()=>{
         )
     )
     const setCurrentAction=(currentUser)=>{
-        apolloClient.resetStore()
+        client.resetStore()
         store.setState(currentUser)
     }
     return [currentUser,setCurrentUserAction]
