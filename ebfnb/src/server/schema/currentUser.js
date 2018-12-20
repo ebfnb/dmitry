@@ -1,5 +1,4 @@
 import {schemaComposer} from 'graphql-compose'
-import handleResolverErrors from './handleResolverErrors'
 import {AuthenticationError, UserInputError} from 'apollo-server'
 import _ from 'ramda'
 const uuidv1 = require('uuid/v1')

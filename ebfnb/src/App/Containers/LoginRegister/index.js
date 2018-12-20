@@ -5,9 +5,7 @@ import LoginRegisterForm from './LoginRegisterForm'
 import {Redirect} from 'react-router-dom'
 import _ from 'ramda'
 import {throwServerErrors} from '../../utils'
-import {useCurrentUser} from '../../hooks/useCurrentUser'
-import {useMessageList} from '../../hooks/useMessageList'
-
+import {useCurrentUser,useMutation} from '../../hooks/useCurrentUser'
 
 const login = gql`
   mutation login($input:LoginInput){
@@ -21,6 +19,8 @@ const register = gql`
 `
 const LoginRegister= ({isLogin}) => {
     const [currentUser,setCurrentUser]=useCurrentUser()
+    const login=useMutation(login)
+    const register=useMutation(register)
     return (
         <Mutation 
             mutation={isLogin?login:register}

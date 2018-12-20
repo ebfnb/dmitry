@@ -1,5 +1,5 @@
 import React from 'react'
-import { ApolloProvider } from 'react-apollo'
+import { ApolloProvider } from 'react-apollo-hooks'
 import { BrowserRouter as Router, Route} from "react-router-dom"
 import {Layout,ErrorHandler} from './Components'
 import {LoginRegister,Home} from './Containers'

@@ -2,7 +2,7 @@ import _ from 'ramda'
 import toArr from './toArr'
 
 //this hook needs to live outside App
-import {useMessageList} from '../App/hooks'
+import {useMessageList} from '../App/hooks/useMessageList'
 
 class ServerError extends Error{
     constructor(graphqlError){

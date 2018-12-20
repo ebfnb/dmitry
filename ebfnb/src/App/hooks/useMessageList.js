@@ -8,9 +8,9 @@ import {useState,useEffect} from 'react'
 
 const useMessageList=(name,asWriterOrReader)=>{
     const getMessages=()=>store.getState().messageLists[name]
-    const setMessagesInStore=(messages)=>store.setState({messageLists:{...getMessages(name),
-        [name]:messages
-    }})
+    const setMessagesInStore=(messages)=>store.setState({
+        messageLists:_.assoc(store.getState().messageLists,{[name]:messages})
+    })
 
     //init message list in store
     !getMessages() && (getMessages()[name]=[])
