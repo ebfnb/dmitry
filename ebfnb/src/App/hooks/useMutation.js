@@ -22,5 +22,6 @@ const useMutation=(...args)=>{
         })
         handleServerErrors(errors)
     }
+    return [mutation,{...state}]
 }
 export default useMutation
