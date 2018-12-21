@@ -1,26 +1,8 @@
 import React from 'react'
 import {Form,Text} from 'informed'
-import {Redirect} from 'react-router-dom'
-import {useState} from 'react'
 
-export default ({isLogin,onSubmit,graphqlFieldErrors,redirectOnCancel = "/"})=>{
-    const [isCancelled,setCancelled]=useState(false)
-    if (isCancelled) return (
-        <Redirect to={redirectOnCancel} />
-    )
-    const onCancel=(evt)=>{
-        evt.preventDefault()
-        setCancelled(true)
-    }
-    const Msg=()=>{
-        if(errorMsg)return (
-            <p className='is-danger'>{errorMsg}</p>
-        )
-        if(loading)return (
-            <p className='is-success'>Logging in. Please, wait ...</p>
-        )
-        return null
-    }
+
+export default ({isLogin,onSubmit,graphqlFieldErrors})=>{
     return (
         <Form onSubmit={onLogin}>
             <div className="field">
@@ -49,7 +31,6 @@ export default ({isLogin,onSubmit,graphqlFieldErrors,redirectOnCancel = "/"})=>{
                     <button className="button is-text" onClick={onCancel}>Cancel</button>
                 </div>
             </div>
-            <Msg/>
         </Form>
     )
 }

@@ -32,12 +32,8 @@ Mutation.addFields({
         args:{input:LoginITC},
         resolve:({users},{input:{username,password}})=>{
             const user=_.find(_.propEq('username',username))(users)
-            if(!user)throw new UserInputError('Invalid field values',{
-                fieldErrors:{username:`can not find user ${username}`}
-            })
-            if(user.password!==password)throwServerError('Invalid field values',{
-                fieldErrors:{password:'password does not match'}
-            })
+            if(!user)throw new UserInputError(`can not find user ${username}`)
+            if(user.password!==password)throw new UserInputError('password does not match')
             currentUser=user
         }
     },
@@ -52,9 +48,7 @@ Mutation.addFields({
         type:'Void',
         args:{input:RegisterITC},
         resolve:({users},{input:{username,password,profile={}}})=>{
-            if(_.find(_.propEq('username',username))(users))throw new UserInputError('Invalid field values',{
-                fieldErrors:{username:`this username is not available`}
-            })
+            if(_.find(_.propEq('username',username))(users))throw new UserInputError(`this username is not available`)
             currentUser={username,password,profile,
                 id:uuidv1(),
                 roles:['registered']
