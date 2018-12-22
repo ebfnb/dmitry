@@ -15,6 +15,6 @@ export default (errors)=>{
     const {writeMessages}=useMessageList('errors','asWriter')
     _.map((graphqlError)=>{
         if(graphqlError.extentions.code==='INTERNAL_SERVER_ERROR')throw new ServerError(graphqlError)
-        writeMessages(`${graphqlError.extentions.code} error`)
+        writeMessages(graphqlError.message)
     })(errorsList)
 }

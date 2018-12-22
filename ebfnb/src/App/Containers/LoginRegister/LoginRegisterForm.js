@@ -1,36 +1,39 @@
 import React from 'react'
-import {Form,Text} from 'informed'
+import {Form,Text,Scope} from 'informed'
+import {Control,Help,Field} from 'react-bulma-components/full'
+import classnames from 'classnames'
+import RichField from '../../Components/RichField'
+import UserProfileFields from './UserProfileFields'
 
-
-export default ({isLogin,onSubmit,graphqlFieldErrors})=>{
+export default ({isLogin,onSubmit})=>{
+    const UserProfile=()=>{
+        const UserProfile=()=>{(
+            <Scope na
+        )}
+    }
     return (
-        <Form onSubmit={onLogin}>
-            <div className="field">
-                <label className="label">Username</label>
-                <div className="control has-icons-left has-icons-right">
-                    <Text className="input is-success" field="username" />
-                    <span className="icon is-small is-left">
-                        <i className="fas fa-user"></i>
-                    </span>
-                    <span className="icon is-small is-right">
-                        <i className="fas fa-check"></i>
-                    </span>
-                </div>
-            </div>
-            <div className="field">
-                <label className="label">Password</label>
-                <div className="control">
-                    <Text className="input is-success" field="password" />
-                </div>
-            </div>
-            <div className="field is-grouped">
-                <div className="control">
-                    <button type="submit" className="button is-link">Submit</button>
-                </div>
-                <div className="control">
-                    <button className="button is-text" onClick={onCancel}>Cancel</button>
-                </div>
-            </div>
+        <Form onSubmit={onSubmit}>
+            <RichField field='username' label='Username'>
+                {(controlClass,...props)=>{(
+                    <Control iconLeft>
+                        <Text {...props} className={controlClass}/>
+                        <Icon className={controlClass} left name='user'/>
+                    </Control>
+                )}}
+            </RichField>
+            <RichField field='password' label='Password'>
+                {(controlClass,...props)=>{(
+                    <Control>
+                        <Text {...props} type='password' className={controlClass}/>
+                    </Control>
+                )}}
+            </RichField>
+            {!isLogin?(<UserProfileScope)}
+            <Field>
+                <Control>
+                    <Button type="submit">{isLogin?'login':'register'}</Button>
+                </Control>
+            </Field>
         </Form>
     )
 }

@@ -48,7 +48,7 @@ Mutation.addFields({
         type:'Void',
         args:{input:RegisterITC},
         resolve:({users},{input:{username,password,profile={}}})=>{
-            if(_.find(_.propEq('username',username))(users))throw new UserInputError(`this username is not available`)
+            if(_.find(_.propEq('username',username))(users))throw new UserInputError(`${username} username is not available`)
             currentUser={username,password,profile,
                 id:uuidv1(),
                 roles:['registered']

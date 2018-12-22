@@ -24,7 +24,6 @@ const LoginRegister= ({isLogin}) => {
             onSubmit={(input)=> mutate({
                 variables:{input}
             })} 
-            graphqlFieldErrors={!!error && error.extentions.exception.fieldErrors}
         />
     )
 }
