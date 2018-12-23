@@ -1,34 +1,34 @@
 import React from 'react'
 import {Form,Text,Scope} from 'informed'
 import {Control,Help,Field} from 'react-bulma-components/full'
-import classnames from 'classnames'
+import SimpleField from '../../Components/SimpleField'
 import RichField from '../../Components/RichField'
 import UserProfileFields from './UserProfileFields'
 
 export default ({isLogin,onSubmit})=>{
     const UserProfile=()=>{
-        const UserProfile=()=>{(
-            <Scope na
-        )}
+        return !isLogin
+            ?(
+                <Scope scope='profile'>
+                    <UserProfileFields/>
+                </Scope>
+            )
+            :null
     }
     return (
         <Form onSubmit={onSubmit}>
-            <RichField field='username' label='Username'>
-                {(controlClass,...props)=>{(
-                    <Control iconLeft>
-                        <Text {...props} className={controlClass}/>
-                        <Icon className={controlClass} left name='user'/>
-                    </Control>
-                )}}
-            </RichField>
-            <RichField field='password' label='Password'>
+            <SimpleField renderAs='text' iconLeft='user' field='username' label='Username'/>
+            <SimpleField renderAs='text' field='password' label='Password'/>
+            <UserProfile/>
+
+            <RichField field='needsVolunteeringHelp'>
                 {(controlClass,...props)=>{(
                     <Control>
-                        <Text {...props} type='password' className={controlClass}/>
+                       
                     </Control>
                 )}}
             </RichField>
-            {!isLogin?(<UserProfileScope)}
+
             <Field>
                 <Control>
                     <Button type="submit">{isLogin?'login':'register'}</Button>
