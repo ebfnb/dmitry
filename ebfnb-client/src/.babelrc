@@ -1,0 +1,4 @@
+{
+    "plugins":["emotion"],
+    "presets":["react-app"]
+}

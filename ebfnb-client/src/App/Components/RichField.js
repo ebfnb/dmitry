@@ -6,7 +6,13 @@ import classnames from 'classnames'
 
 const RichField=asField(
     ({fieldState,label,size='small',color='primary',field,children,...props})=>{
+        const labelStyle={
+            invisible:!!label?'visible':'hidden'
+        }        
         const error=fieldState.error
+        const errorStyle={
+            invisible:!!error?'visible':'hidden'
+        }
         const collorClass=`is-${collor}`
         const sizeClass=`is-${size}`
         const controlClass=classnames(sizeClass,{
@@ -17,9 +23,9 @@ const RichField=asField(
         const controlElement=child(fieldState,field,controlClass,...props)
         return (
             <Field>
-                {label?(<Label size={size} color={color}>Username</Label>):null}
+                <Label style={labelStyle} size={size} color={color}>{label}</Label>
                 {controlElement}
-                {error?(<Help collor='danger' size={size}>{error}</Help>):null}
+                <Help style={errorStyle} collor='danger' size={size}>{error}</Help>
             </Field>
         )
     }

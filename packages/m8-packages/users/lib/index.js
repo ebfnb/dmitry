@@ -1,2 +1,0 @@
-import {collectionDataSource} from 'tools'
-

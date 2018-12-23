@@ -1,18 +1,23 @@
 {
-  "name": "m8-mockStore",
+  "name": "ebfnb-gqlserver",
   "version": "1.0.0",
   "description": "",
-  "main": "lib/index.js",
+  "main": "index.js",
   "scripts": {
+    "start": "NODE_ENV=${NODE_ENV:=development} babel-node lib",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@babel/core": "^7.2.2",
+    "apollo-server": "^2.3.1",
+    "babel-preset-env": "^1.7.0",
     "graphql": "^14.0.2",
     "graphql-compose": "^5.3.4",
     "ramda": "^0.26.1",
-    "tools": "file:../tools"
+    "uuid": "^3.3.2",
+    "m8-tools": "file:../packages/m8-tools"
   }
 }

@@ -1,16 +1,16 @@
 {
-  "name": "m8-tasks",
+  "name": "m8-tools",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "main": "lib",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "description": "",
   "dependencies": {
-    "ramda": "^0.26.1",
-    "tools": "^1.0.0"
+    "babel-preset-env": "^1.7.0",
+    "ramda": "^0.26.1"
   }
 }
