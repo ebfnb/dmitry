@@ -7,7 +7,7 @@ store.setState({
     errorMessages:[]
 })
 const EXPIRATION_TIME=2000
-const useErrorMessages=()=>{
+export const useErrorMessages=()=>{
     useEffect(
         ()=>store.subscribe(
             ({messages})=>{
@@ -18,28 +18,20 @@ const useErrorMessages=()=>{
     const [messagesInState,setMessagesInState]=useState(messages)
     return messagesInState        
 }
-const eraseMessage=(messageToErase)=>{
-    const index=_.index
-    store.setState({
-        errorMessages:store.getState().errorMessages.filter((message)=>(message===messageToErase))
+const getErrorMessages=()=>store.getState().errorMessages
+const setErrorMessages=(messages)=>{
+    !_.equals(getErrorMessages().length,messages.length) && store.setState({
+        errorMessages:updatedErrorMessages
     })
 }
-const writeErrorMessages=(messages)=>{
-    const updatedErrorMessages=toArr(messages).reduce((messages,message)=>{
+export const eraseErrorMessage=(messageToErase)=>setErrorMessages(
+    getErrorMessages().filter((message)=>(!_.equals(message,messageToErase)))
+)
+export const writeErrorMessages=(messages)=>setErrorMessages(
+    toArr(messages).reduce((messages,message)=>{
         if(!messages.includes(message)){
             messages.push(message)
-            setTimeout(()=>store.setState({
-
-            }))
+            setTimeout(()=>eraseErrorMessage(message),EXPIRATION_TIME)
         }
-    },[...store.getState().errorMessages])
-    const errorMessages=_.compose(
-        _.map((message)=>{
-
-        }),
-        _.dropRepeats
-    )(toArr(messages))
-    messagesToWrite.length && store.setState({
-        errorMessages:[...store.getState]
-    })
-}
+    },[...getErrorMessages()])
+)

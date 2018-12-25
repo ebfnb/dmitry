@@ -20,7 +20,7 @@ const mutations={
     `
 }
 const queries={
-    currentUserProfile:gql`query currentUser {
+    currentUserProfile:gql`query currentUserProfile {
         firstName 
         lastName 
         notes
