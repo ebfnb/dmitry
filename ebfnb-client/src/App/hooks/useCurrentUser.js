@@ -1,12 +1,35 @@
 import useQuery from './useQuery'
-import currentUserSchema from '../../schema/currentUser'
+import {useClient} from 'react-apollo-hooks'
+import gql from 'graphql-tag'
 
-const {
-    queries:{currentUser},
-}=currentUserSchema
+const mutations={
+    login:gql`
+        mutation login($input:LoginInput){
+            login(input:$input){void}
+        }
+    `,
+    register:gql`
+        mutation register($input:RegisterInput){
+            register(input:$input){void}
+        }
+    `,
+    updateProfile:gql`
+        mutation updateProfile($input:UpdateProfileInput){
+            updateProfile(input:$input){void}
+        }
+    `
+}
+const queries={
+    currentUserProfile:gql`query currentUser {
+        firstName 
+        lastName 
+        notes
+    }`
+}
 
 const useCurrentUser=()=>{
-    const {data:{currentUser}}=useQuery(currentUser)
+    const client=useClient()
+    const {data:currentUserProfile}=useQuery(queries.currentUserProfile)
     return currentUser
 }
 export default currentUser

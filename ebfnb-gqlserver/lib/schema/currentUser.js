@@ -67,7 +67,7 @@ Mutation.addFields({
     }
 })
 Query.addFields({
-  CurrentUser:{
+  CurrentUserProfile:{
     type:'UserProfile',
     resolve:()=>(
         currentUser?{currentUser:currentUser.profile}:{}
