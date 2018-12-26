@@ -1,6 +1,6 @@
 import { useMutation as useRahMutation } from 'react-apollo-hooks'
 import {useState} from 'react'
-import handleServerErrors from '../../../../packages/m8-tools/lib/handleServerErrors'
+import handleServerErrors from '../../utils/handleServerErrors'
 
 const useMutation=(mutationDoc,options={})=>{
     const rahMutation=useRahMutation(mutationDoc,options)
@@ -35,6 +35,6 @@ const useMutation=(mutationDoc,options={})=>{
             }
         )
     }
-    return {mutation,...state}
+    return [mutation,state]
 }
 export default useMutation

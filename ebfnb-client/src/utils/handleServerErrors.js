@@ -1,8 +1,6 @@
 import _ from 'ramda'
-import toArr from './toArr'
-
-//this hook needs to live outside App
-import {useMessageList} from '../../../ebfnb-client/src/App/hooks/useMessageList'
+import toArr from '../../../packages/m8-tools/lib/toArr'
+import {writeErrorMessages} from '../App/models/errorMessages'
 
 class ServerError extends Error{
     constructor(graphqlError){
@@ -12,9 +10,8 @@ class ServerError extends Error{
 }
 export default (errors)=>{
     const errorsList=toArr(errors)
-    const {writeMessages}=useMessageList('errors','asWriter')
     _.map((graphqlError)=>{
         if(graphqlError.extentions.code==='INTERNAL_SERVER_ERROR')throw new ServerError(graphqlError)
-        writeMessages(graphqlError.message)
+        writeErrorMessages(graphqlError.message)
     })(errorsList)
 }

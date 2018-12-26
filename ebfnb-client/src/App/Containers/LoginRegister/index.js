@@ -2,29 +2,22 @@ import gql from "graphql-tag";
 import React from 'react'
 import LoginRegisterForm from './LoginRegisterForm'
 import {Redirect} from 'react-router-dom'
-import {useMutation} from '../../hooks'
-import {useClient} from 'react-apollo-hooks'
-import currentUserSchema from '../../schema/currentUser'
+import {useLogin,useRegister} from '../../models/errorMessages'
 
-const {
-    mutations:{login,register}
-}=currentUserSchema
 const LoginRegister= ({isLogin}) => {
-    const [mutation,{called,error,loading}]=useMutation(
-        isLogin?login:register
-    )
-    const client=useClient()
-    if(called && !error && !loading){
-        client.resetStore()
-        return (<Redirect to='/'/>)
-    }
-    return (
-        <LoginRegisterForm 
-            isLogin={isLogin} 
-            onSubmit={(input)=> mutate({
-                variables:{input}
-            })} 
-        />
-    )
+    const [login,loginState]=useLogin()
+    const [register,registerState]=useRegister()
+    const mutation=isLogin?login:register
+    const {called,error,loading}=isLogin?loginState:registerState
+    return (called && !error && !loading)
+        ?(<Redirect to='/'/>)
+        :(
+            <LoginRegisterForm 
+                isLogin={isLogin} 
+                onSubmit={(input)=> mutate({
+                    variables:{input}
+                })} 
+            />
+        )
 }
 export default LoginRegister

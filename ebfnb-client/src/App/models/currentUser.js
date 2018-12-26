@@ -28,23 +28,25 @@ export const useCurrentUserProfile=(options)=>useQuery(currentUserProfile,option
 
 const useLoginOrRegister=(name)=>(options)=>{
     const client=useApolloClient()
-    const {mutation,...mutationState}=useMutation(mutations[name],options)
-    return {...mutationState,
-        mutation:(options)=>mutation(options).then((res)=>{
+    const [mutation,mutationState]=useMutation(mutations[name],options)
+    return [
+        (options)=>mutation(options).then((res)=>{
             client.resetStore()
             return res
-        })
-    }
+        }),
+        mutationState
+    ]
 }
 export const useLogin=(options)=>useLoginOrRegister('login')(options)
 export const useRegister=(options)=>useLoginOrRegister('register')(options)
 export const useUpdateCurrentUserProfile=(options)=>{
-    const {updateQuery:updateCurrentUserProfile}=useCurrentUserProfile()
-    const {mutation,...mutationState}=useMutation(mutations.updateProfile,options)
-    return {...mutationState,
-        mutation:(options)=>mutation(options).then((res)=>{
-            updateCurrentUserProfile()
+    const {refetch}=useCurrentUserProfile()
+    const [mutation,mutationState]=useMutation(mutations.updateProfile,options)
+    return [
+        (options)=>mutation(options).then((res)=>{
+            refetch()
             return res
-        })
-    }
+        }),
+        mutationState
+    ]
 }
