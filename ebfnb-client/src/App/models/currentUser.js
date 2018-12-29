@@ -1,5 +1,7 @@
-import {useMutation,useQuery} from '../hooks'
+import useMutation from '../hooks/useMutation'
+import useQuery from '../hooks/useQuery'
 import {useApolloClient} from 'react-apollo-hooks'
+import gql from 'graphql-tag'
 
 const currentUserProfile=gql`query currentUserProfile {
     firstName 
@@ -24,7 +26,9 @@ const mutations={
     `
 }
 
-export const useCurrentUserProfile=(options)=>useQuery(currentUserProfile,options)
+export const useCurrentUserProfile=(options)=>{
+    return useQuery(currentUserProfile,options)
+}
 
 const useLoginOrRegister=(name)=>(options)=>{
     const client=useApolloClient()

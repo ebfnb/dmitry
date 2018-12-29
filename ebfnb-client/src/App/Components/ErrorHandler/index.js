@@ -11,7 +11,7 @@ export default class ErrorHandler extends React.Component {
     }
   
     render() {
-      const {error}=this.state.error
+      const {error}=this.state
       if (error) {
         return (
           <div>

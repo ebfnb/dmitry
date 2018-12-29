@@ -1,24 +1,24 @@
 import React from 'react'
-import {Form,Text,Scope} from 'informed'
-import {Control,Help,Field} from 'react-bulma-components/full'
-import SimpleField from '../../Components/SimpleField'
-import RichField from '../../Components/RichField'
+import {Form,Scope} from 'informed'
+import {Control,Field,Button} from 'react-bulma-components/full'
+import InputField from '../../Components/InputField'
 import UserProfileFields from './UserProfileFields'
 
-const UserProfile=()=>{(
+const UserProfile=()=>{return (
     <Scope scope='profile'>
         <UserProfileFields/>
     </Scope>
 )}
-export default ({isLogin,onSubmit})=>{(
+const LoginRegisterForm=({isLogin,onSubmit})=>{return (
     <Form onSubmit={onSubmit}>
-        <SimpleField renderAs='text' iconLeft='user' field='username' label='Username'/>
-        <SimpleField renderAs='text' field='password' label='Password'/>
-        {isLogin?(<UserProfile/>):null}
+        {/* <InputField field='username' label='Username'/>
+        <InputField field='password' label='Password'/> */}
+        {/* {isLogin?(<UserProfile/>):null}
         <Field>
             <Control>
                 <Button type="submit">{isLogin?'login':'register'}</Button>
             </Control>
-        </Field>
+        </Field> */}
     </Form>
 )}
+export default LoginRegisterForm

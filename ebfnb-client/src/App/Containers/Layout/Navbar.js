@@ -1,34 +1,34 @@
-import React,{useState} from 'react'
+import React from 'react'
 import { Link } from "react-router-dom"
 import {Navbar} from 'react-bulma-components/full'
-import {ForRegisteredUser} from '../ForRegisteredUser'
-import {ForUnregisteredUser} from '../ForUnregisteredUser'
+import ForRegisteredUser from '../../Components/ForRegisteredUser'
+import ForUnregisteredUser from '../../Components/ForUnregisteredUser'
 
-const DefaultMenu=()=>{(
+const DefaultMenu=()=>{return (
     <React.Fragment>
-        <Navbar.Item>
+        <Navbar.Item renderAs='div'>
             <Link to="/">Home</Link>
         </Navbar.Item>
-        <Navbar.Item>
+        <Navbar.Item renderAs='div'>
             <Link to="/about">About</Link>
         </Navbar.Item>
-        <Navbar.Item>
+        <Navbar.Item renderAs='div'>
             <Link to="/volunteer">Volunteer</Link>
         </Navbar.Item>
     </React.Fragment>
 )}
-const TasksDropdownMenu=()=>{(
-    <Navbar.Item dropdown hoverable>
+const TasksDropdownMenu=()=>{return (
+    <Navbar.Item renderAs='div' dropdown hoverable>
         <Navbar.Link>Tasks</Navbar.Link>
         <Navbar.dropdown>
-            <Navbar.Item>
+            <Navbar.Item renderAs='div'>
                 <Link to="/myTasks">My tasks</Link>
             </Navbar.Item>
         </Navbar.dropdown>
     </Navbar.Item>
 )}
-const AccountsMenu=()=>{(
-    <Navbar.Item>
+const AccountsMenu=()=>{return (
+    <Navbar.Item renderAs='div'>
         <React.Fragment>
             <div className='buttons'>
                 <ForRegisteredUser>
@@ -39,22 +39,22 @@ const AccountsMenu=()=>{(
                         My profile
                     </Link>
                 </ForRegisteredUser>
-                <ForUnregisteredUser>
+                {/* <ForUnregisteredUser>
                     <Link to="/signup" className="button is-primary">
                         <strong>Sign up</strong>
                     </Link>
                     <Link to="/login" className="button is-light">
                         Log in
                     </Link>
-                </ForUnregisteredUser>
+                </ForUnregisteredUser> */}
             </div> 
         </React.Fragment>
     </Navbar.Item>
 )}
 export default ()=>{
-    const [isOpen,setOpen]=useState(false)
     return (
-        <Navbar fixed
+        <Navbar 
+          fixed='top'
           color='primary'
           role="navigation" 
           aria-label="main navigation"
@@ -68,12 +68,9 @@ export default ()=>{
                 height="28"
               />
             </Navbar.Item>
-            <Navbar.Burger
-              active={isOpen}
-              onClick={() =>setOpen(!isOpen)}
-            />
+            <Navbar.Burger/>
           </Navbar.Brand>
-          <Navbar.Menu active={isOpen}>
+          <Navbar.Menu>
             <Navbar.Container>
                <DefaultMenu/>
                 <ForRegisteredUser>

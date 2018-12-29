@@ -1,6 +1,5 @@
 import { useQuery as useRahQuery } from 'react-apollo-hooks'
-import {useState} from 'react'
-import handleServerErrors from 'm8-tools/lib/handleServerErrors'
+import handleServerErrors from '../../utils/handleServerErrors'
 
 const useQuery=(...args)=>{
     const {errors,...others}=useRahQuery(...args)

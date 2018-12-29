@@ -1,7 +1,7 @@
 import {useState,useEffect} from 'react'
 import store from '../store'
-import _ from 'ramda'
-import toArr from 'm8-tools/lib/toArr'
+import * as _ from 'ramda'
+import toArr from '../../utils/toArr'
 
 store.setState({
     errorMessages:[]
@@ -15,13 +15,13 @@ export const useErrorMessages=()=>{
             }
         )
     )
-    const [messagesInState,setMessagesInState]=useState(messages)
+    const [messagesInState,setMessagesInState]=useState(store.getState().errorMessages)
     return messagesInState        
 }
 const getErrorMessages=()=>store.getState().errorMessages
 const setErrorMessages=(messages)=>{
     !_.equals(getErrorMessages().length,messages.length) && store.setState({
-        errorMessages:updatedErrorMessages
+        errorMessages:messages
     })
 }
 export const eraseErrorMessage=(messageToErase)=>setErrorMessages(
@@ -33,5 +33,6 @@ export const writeErrorMessages=(messages)=>setErrorMessages(
             messages.push(message)
             setTimeout(()=>eraseErrorMessage(message),EXPIRATION_TIME)
         }
+        return messages
     },[...getErrorMessages()])
 )

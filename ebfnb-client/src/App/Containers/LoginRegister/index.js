@@ -1,8 +1,7 @@
-import gql from "graphql-tag";
 import React from 'react'
 import LoginRegisterForm from './LoginRegisterForm'
 import {Redirect} from 'react-router-dom'
-import {useLogin,useRegister} from '../../models/errorMessages'
+import {useLogin,useRegister} from '../../models/currentUser'
 
 const LoginRegister= ({isLogin}) => {
     const [login,loginState]=useLogin()
@@ -14,7 +13,7 @@ const LoginRegister= ({isLogin}) => {
         :(
             <LoginRegisterForm 
                 isLogin={isLogin} 
-                onSubmit={(input)=> mutate({
+                onSubmit={(input)=> mutation({
                     variables:{input}
                 })} 
             />

@@ -1,15 +1,15 @@
 import React from 'react'
-import {Form,Text,Scope} from 'informed'
-import {Control,Help,Field} from 'react-bulma-components/full'
-import SimpleField from '../../Components/SimpleField'
+import InputField from '../../Components/InputField'
+import TextareaField from '../../Components/TextareaField'
 
 const UserProfileFields=()=>{
     return (
         <React.Fragment>
-            <SimpleField renderAs='text' field='firstName' label='First name'/>
-            <SimpleField renderAs='text' field='lastName' label='Last name'/>
-            <SimpleField renderAs='textarea' field='notes' label='Tell us about self'/>
-            <SimpleField renderAs='text' type='email' iconLeft='mail' field='email' label='Email address'/>
+            <InputField field='firstName' label='First name'/>
+            <InputField field='lastName' label='Last name'/>
+            <InputField type='email' field='email' label='Email address'/>
+            <TextareaField field='notes' label='Tell us about self'/>
         </React.Fragment>
     )
 }
+export default UserProfileFields
