@@ -2,9 +2,9 @@ const { ApolloServer } = require('apollo-server')
 import {reduce} from 'ramda'
 import toFunc from 'm8-tools/lib/toFunc'
 import schema from './schema'
-import mockStore from './mockStore'
 
-const server=new ApolloServer({...schema,
+const mockStore={users:[]}
+const server=new ApolloServer({schema,
   rootValue:mockStore,
   graphiql: true,
   pretty:true,

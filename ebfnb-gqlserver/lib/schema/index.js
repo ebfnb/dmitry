@@ -1,5 +1,7 @@
-import {schemaComposer} from 'graphql-compose'
-import './common'
-import './currentUser'
+import tasksSchema from './tasksSchema'
+import gql from 'graphql-tag'
+import mergeSchemaReducer from '../utils/mergeSchemaReducer'
+import seedSchema from './seedSchema'
 
-export default schemaComposer.buildSchema()
+const schema=[seedSchema,tasksSchema].reduce(mergeSchemaReducer)
+export default schema

@@ -15,8 +15,9 @@
     "apollo-server": "^2.3.1",
     "babel-preset-env": "^1.7.0",
     "graphql": "^14.0.2",
-    "graphql-tag": "^2.10.0",
+    "graphql-compose": "^5.3.4",
     "ramda": "^0.26.1",
-    "uuid": "^3.3.2"
+    "uuid": "^3.3.2",
+    "m8-tools": "file:../packages/m8-tools"
   }
 }

@@ -5,6 +5,7 @@
     "lerna": "^3.5.1"
   },
   "dependencies": {
+    "apollo-boost": "^0.1.23",
     "eslint": "^5.10.0",
     "eslint-plugin-graphql": "^3.0.1",
     "graphql": "^14.0.2",
