@@ -6,10 +6,10 @@ const seedSchema={
             void: Boolean
         }
         type Mutation {
-            void:{void:Boolean}
+            void:Void
         }
         type Query {
-            void:{void:Boolean}
+            void:Void
         }
         type Comment {
             uuid:ID
@@ -28,3 +28,4 @@ const seedSchema={
         Void:()=>({void:false})
     }
 }
+export default seedSchema
