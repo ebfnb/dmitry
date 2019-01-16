@@ -13,10 +13,11 @@ const seedSchema={
         }
         type Comment {
             uuid:ID
-            comment:String
-            byUser:User
-            date:String
+            body:String
+            createdBy:User
+            dateCreated:String
         }
+        enum Status [inprogress,done]
     `,
     resolvers:{
         Mutation:{

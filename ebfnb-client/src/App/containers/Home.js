@@ -1,6 +1,6 @@
 /** @jsx jsx */
-import { jsx} from '@emotion/core'
+import { jsx } from "@emotion/core"
 
-export default ()=>{return (
-    <div>you are home</div>
-)}
+export default () => {
+  return <div>you are home</div>
+}
