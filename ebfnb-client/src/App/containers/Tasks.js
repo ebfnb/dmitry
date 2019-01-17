@@ -78,6 +78,13 @@ const TaskListNav = withRouter(({ match: { url } }) => {
   )
 })
 
+//TaskList component
+const taskListCss = css`
+  display: grid;
+  padding: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-gap: 1rem;
+`
 const TaskList = ({ match }) => {
   const {
     data: { TaskIds }
@@ -85,7 +92,7 @@ const TaskList = ({ match }) => {
     variables: { input: { filter: match.params.filter } }
   })
   return (
-    <div>
+    <div css={taskListCss}>
       {TaskIds.map(({ id }) => (
         <Task.Card id={id} key={id} />
       ))}
