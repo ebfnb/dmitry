@@ -7,23 +7,8 @@ const styles = css`
   max-width: 60rem;
   width: 100%;
 `
-const LayoutContainer = ({
-  children,
-  css: customCss = "",
-  tag: Wrapper = "div",
-  ...props
-}) => (
-  <Wrapper
-    css={[
-      styles,
-      css`
-        ${customCss}
-      `
-    ]}
-    {...props}
-  >
-    {children}
-  </Wrapper>
+const LayoutContainer = ({ tag: Wrapper = "div", ...props }) => (
+  <Wrapper css={styles} {...props} />
 )
 
 export default LayoutContainer

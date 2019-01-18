@@ -4,11 +4,11 @@ import { Redirect, Link } from "react-router-dom"
 import { withRouter, Route } from "react-router"
 import { useQuery } from "react-apollo-hooks"
 import gql from "graphql-tag"
-import React from "react"
+import React, { useState } from "react"
 import Spinner from "../components/Spinner"
 import LayoutContainer from "../components/LayoutContainer"
 import NavMenuItem from "../components/NavMenuItem"
-import toFlatList from "../../utils/toFlatList"
+import Card from "../components/Card"
 
 //TaskList component
 const TASK_IDS = gql`
@@ -18,7 +18,6 @@ const TASK_IDS = gql`
     }
   }
 `
-
 const navCss = css`
   // display: flex;
   overflow: hidden;
@@ -27,50 +26,63 @@ const navCss = css`
   padding: 5px;
   // border: 2px solid;
 `
-
-const onHoverMenuItemCss = css`
-  &:hover,
-  &:active,
-  &:focus {
-    color: black;
-  }
+const menuItemStyles = {
+  onHoverCss: css`
+    &:hover,
+    &:active,
+    &:focus {
+      color: black;
+    }
+  `,
+  activeCss: css`
+    cursor: default;
+    font-weight: bold;
+    color: green;
+    border-bottom: 2px solid green;
+    // border: 2px solid;
+  `,
+  css: css`
+    float: left;
+    color: #888;
+    padding: 5px 16px;
+    line-height: 20px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 1rem;
+  `
+}
+const TaskListMenuItem = props => <NavMenuItem {...props} {...menuItemStyles} />
+const toRightCss = css`
+  float: right;
 `
-const activeMenuItemCss = css`
-  cursor: default;
-  font-weight: bold;
-  color: green;
-  border-bottom: 2px solid green;
-  // border: 2px solid;
-`
-const defaultMenuItemCss = css`
-  float: left;
-  color: #888;
-  padding: 5px 16px;
-  line-height: 20px;
-  text-align: center;
-  text-decoration: none;
-  font-size: 1rem;
-`
-const TaskListMenuItem = ({ css, ...props }) => (
-  <NavMenuItem
-    {...props}
-    css={toFlatList(defaultMenuItemCss, css)}
-    activeCss={activeMenuItemCss}
-    onHoverCss={onHoverMenuItemCss}
-  />
-)
-
 const TaskListNav = withRouter(({ match: { url } }) => {
   const path = path => `${url}/${path}`
+  const [activeMenu, setActiveMenu] = useState("all")
+  const activeProps = name => ({
+    makeActive: () => setActiveMenu(name),
+    isActive: name === activeMenu
+  })
   return (
     <nav css={navCss}>
-      <TaskListMenuItem to={path(":active")}>Active</TaskListMenuItem>
-      <TaskListMenuItem to={path(":onHold")}>On hold</TaskListMenuItem>
+      <TaskListMenuItem
+        to={path(":active")}
+        {...menuItemStyles}
+        {...activeProps("active")}
+      >
+        Active
+      </TaskListMenuItem>
+      <TaskListMenuItem
+        to={path(":onHold")}
+        {...menuItemStyles}
+        {...activeProps("onHold")}
+      >
+        On hold
+      </TaskListMenuItem>
       <TaskListMenuItem
         to={path(":all")}
-        css={css`
-          float: right;
-        `}
+        {...menuItemStyles}
+        css={toRightCss}
+        {...activeProps("all")}
       >
         All
       </TaskListMenuItem>
@@ -82,7 +94,7 @@ const TaskListNav = withRouter(({ match: { url } }) => {
 const taskListCss = css`
   display: grid;
   padding: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   grid-gap: 1rem;
 `
 const TaskList = ({ match }) => {
@@ -94,7 +106,7 @@ const TaskList = ({ match }) => {
   return (
     <div css={taskListCss}>
       {TaskIds.map(({ id }) => (
-        <Task.Card id={id} key={id} />
+        <Card id={id} key={id} />
       ))}
     </div>
   )
@@ -120,6 +132,7 @@ const TASK = gql`
 `
 const cardCss = css`
   border: 1px solid transparent;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   display: flex;
   padding: 0.3125rem 0.625rem;
   width: 100%;
@@ -130,13 +143,13 @@ const cardCss = css`
     border-color: #ddd;
   }
 `
-Task.Card = ({ id, css: customCss }) => {
+Task.Card = ({ id, ...props }) => {
   const {
     data: { Task }
   } = useQuery(TASK, { variables: { $id: id } })
 
   return (
-    <Link css={toFlatList(cardCss, customCss)} to="">
+    <Link css={cardCss} {...props} to="">
       <span
         css={css`
           flex-grow: 1;

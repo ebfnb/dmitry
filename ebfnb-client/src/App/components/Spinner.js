@@ -7,9 +7,9 @@ const spinnerCss = css`
   display: block;
   width: 1%;
 `
-const Spinner = ({ size }) => (
-  <span css={spinnerCss}>
-    <FontAwesomeIcon size={size} icon="spinner" pulse />
+const Spinner = ({ className, ...props }) => (
+  <span css={spinnerCss} className={className}>
+    <FontAwesomeIcon {...props} icon="spinner" pulse />
   </span>
 )
 export default Spinner
