@@ -12,8 +12,8 @@ const useNavReducer=({ activeLinkKey })=>{
       }
       case "toggleMenu":{
         const {key}=action
-        const {isToggleOff}=state.menues[key]
-        return update(state,{menues:{[key]:{isToggleOff:{$set:isToggleOff}}}})
+        const {toggled}=state.menues[key]
+        return update(state,{menues:{[key]:{toggled:{$set:toggled}}}})
       } 
       case "setViewportW":{
         const {viewportW}=action
@@ -30,9 +30,12 @@ const useNavReducer=({ activeLinkKey })=>{
     key:activeLinkKey
   }
 
-  const initResponsiveToggledMenu=({key,parentMenuKey})=>{
+  const initMenuState=({key,parentMenuKey})=>{
     if(state.menues[key])return
-    const menuState={parentMenuKey,toggled:false,children:{menues:[],links:[]}}
+    const menuState={parentMenuKey,
+      toggled:false,
+      children:{menues:[],links:[]}
+    }
     state.menues[key]=menuState
   }
   const addChildToMenu=(typeOfChild,{childKey,parentMenuKey})=>{
@@ -47,12 +50,6 @@ const useNavReducer=({ activeLinkKey })=>{
     return links.find((key)=>(key===activeLinkKey)) || menues.find((key)=>isMenuActive(key))
   }
 
-  const initMenuToggle=({key,bp,targetMenuKey})=>{
-    if(state.menues[key])return
-    const menuState={parentMenuKey,show:false}
-    state.menues[key]=menuState
-    return menuState
-  }
   const [state,dispatch]=useReducer(reducer,initState,initAction)
   return [state,dispatch,{initMenu,addMenuToMenu,addLinkToMenu,isMenuActive}]
 }
@@ -77,22 +74,22 @@ const useNav = ({ activeLinkKey }) => {
     return { ...linkProps, onClick:setActiveLink,key }
   }
 
-  const responsiveToggledMenu=({key,bp=0})=>{
-    const {isActive,isToggledOff}=initResponsiveToggledMenuState(key)
+  const menu=({key,bp=0})=>{
+    const {isActive,isToggledOff}=initMenuState(key)
     const isBelowBp=state.viewportW<bp
     const menuProps=({parentMenuKey,getCss,...props})=>{
       if(parentMenuKey)addMenuToMenu({parentMenuKey,childKey:key})
       const menuCss=getCss({isBelowBp,isToggledOff,key,...getCssProps,
-        component:'responsiveToggledMenu.menu',
+        component:'menu',
         isActive:isActive()
       })
       return {key,css:menuCss,...props} 
     }
     const toggleProps=({getCss,ref,...props})=>{
       const toggle=()=>dispatch({type:'toggleMenu',key})
-      const toggleProps={...props,state,dispatch,
-        css:getCss({isBelowBp,isToggledOff,key,...getCssProps,
-          component:'responsiveToggledMenu.toggle',
+      const toggleProps={...props,
+        css:getCss({isBelowBp,toggle,key,...getCssProps,
+          component:'menu.toggle',
           isActive:isActive()
         })
       }
@@ -107,6 +104,6 @@ const useNav = ({ activeLinkKey }) => {
   }
   
   
-  return { linkProps, responsiveToggledMenu,state,dispatch }
+  return { linkProps, menu,state,dispatch }
 }
 export default useNav
