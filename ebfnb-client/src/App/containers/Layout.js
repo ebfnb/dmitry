@@ -2,9 +2,10 @@
 import { jsx, css } from "@emotion/core"
 import { Link } from "react-router-dom"
 import User from "./User"
-import { useContext, useState } from "react"
+import { useContext, useState, useEffect } from "react"
 import LayoutContainer from "../components/LayoutContainer"
-import NavMenuItem from "../components/NavMenuItem"
+import Nav from "../components/Nav"
+import BurgerMenu from "../components/NavMenuItem"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 const headerCss = css`
@@ -58,7 +59,6 @@ const logoCss = css`
 `
 
 const myFnbDropdownCss = css`
-  display: block;
   min-width: 100px;
   position: absolute;
   background-color: #ffff;
@@ -75,19 +75,20 @@ const myFnbDropdownCss = css`
     }
   }
 `
-const hiddenDropdownCss = css`
-  display: none;
-`
-const dropdownItemCss = css`
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
+const showDropdownCss = css`
+  ul {
+    display: none;
+  }
   &:hover,
   &:active,
   &:focus {
-    font-weight: 2px;
+    ul {
+      display: block;
+    }
   }
+`
+const hiddenDropdownCss = css`
+  display: none;
 `
 
 const LogoItem = ({ to, onActive }) => {
@@ -99,11 +100,33 @@ const LogoItem = ({ to, onActive }) => {
     </div>
   )
 }
+const dropdownMenuItemCss = css`
+  &:hover,
+  &:active,
+  &:focus {
+    div {
+      display: block;
+    }
+  }
+`
 
 const MyFnbDropdownMenu = props => {
-  const [isHidden, setIsHidden] = useState(true)
+  // const [isHidden, setIsHidden] = useState(true)
+  // useEffect(() => {
+  //   const hideDropdown = () => {
+  //     setIsHidden(true)
+  //   }
+  //   window.addEventListener("click", hideDropdown)
+  //   return () => window.removeEventListener("click", hideDropdown)
+  // })
   return (
-    <div onClick={() => setIsHidden(isHidden => !isHidden)}>
+    <div
+      css={showDropdownCss}
+      // onClick={e => {
+      //   e.stopPropagation()
+      //   setIsHidden(isHidden => !isHidden)
+      // }}
+    >
       <NavMenuItem {...menuItemCss} {...props} to="#">
         My FNB
         <span>
@@ -111,11 +134,12 @@ const MyFnbDropdownMenu = props => {
         </span>
       </NavMenuItem>
       <div
-        css={
-          isHidden || !props.isActive
-            ? [myFnbDropdownCss, hiddenDropdownCss]
-            : myFnbDropdownCss
-        }
+        css={myFnbDropdownCss}
+        // css={
+        //   isHidden || !props.isActive
+        //     ? [myFnbDropdownCss, hiddenDropdownCss]
+        //     : myFnbDropdownCss
+        // }
       >
         <ul>
           <li>
