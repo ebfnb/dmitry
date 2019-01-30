@@ -3,23 +3,22 @@ import { jsx } from "@emotion/core"
 import { ApolloProvider } from "react-apollo-hooks"
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
 import Home from "./containers/Home"
-import Layout from "./containers/ResponsiveLayout"
-import { Provider as StoreProvider } from "unistore/react"
+import Layout from "./containers/Layout.useNav"
 import ApolloClient from "apollo-boost"
-import store from "../store"
 import About from "./containers/About"
 import Tasks from "./containers/Tasks"
 import GlobalStyles from "./components/GlobalStyles"
 import { UserProvider } from "./containers/User"
 import LayoutContainer from "./components/LayoutContainer"
 import BadUrl from "./components/BadUrl"
+import Theme from "./components/Theme"
 
 const apolloClient = new ApolloClient({
   uri: "http://localhost:4000/graphql"
 })
 
 export default () => (
-  <StoreProvider store={store}>
+  <Theme.Provider>
     <ApolloProvider client={apolloClient}>
       <UserProvider>
         <Router>
@@ -38,5 +37,5 @@ export default () => (
         </Router>
       </UserProvider>
     </ApolloProvider>
-  </StoreProvider>
+  </Theme.Provider>
 )
